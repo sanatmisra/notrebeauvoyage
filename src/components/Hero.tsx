@@ -1,108 +1,139 @@
 "use client";
 
-import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useMotionTemplate, useScroll, useTransform } from "framer-motion";
 
-import { fadeUp, scaleUp, slideLeft, slideRight, viewport } from "@/lib/animations";
+import { fadeUp } from "@/lib/animations";
+
+const contentItems = [
+  {
+    key: "eyebrow",
+    delay: 0.4,
+    node: (
+      <p className="mx-auto max-w-[18rem] font-body text-[0.62rem] font-light uppercase tracking-[0.22em] text-white/80 sm:max-w-none sm:text-[0.7rem] sm:tracking-[0.28em]">
+        You are warmly invited to celebrate
+      </p>
+    ),
+  },
+  {
+    key: "names",
+    delay: 0.7,
+    node: (
+      <h1
+        className="font-display font-light italic text-white"
+        style={{ fontSize: "clamp(3.6rem, 15vw, 9.5rem)", lineHeight: 0.9 }}
+      >
+        Sanat &amp; Sneha
+      </h1>
+    ),
+  },
+  {
+    key: "divider",
+    delay: 1,
+    node: (
+      <div className="flex items-center justify-center gap-3 text-gold sm:gap-4">
+        <span className="text-[0.6rem] sm:text-xs" aria-hidden="true">
+          ◆
+        </span>
+        <span className="h-px w-10 bg-gold sm:w-12" aria-hidden="true" />
+        <span className="text-[0.6rem] sm:text-xs" aria-hidden="true">
+          ◆
+        </span>
+      </div>
+    ),
+  },
+  {
+    key: "date-location",
+    delay: 1.2,
+    node: (
+      <p className="mx-auto max-w-[17rem] text-balance font-body text-[0.72rem] font-light uppercase leading-6 tracking-[0.14em] text-white/90 sm:max-w-none sm:text-[0.85rem] sm:tracking-[0.22em]">
+        29 April 2025 &nbsp; &#183; &nbsp; C&#244;te d&apos;Azur
+      </p>
+    ),
+  },
+  {
+    key: "route",
+    delay: 1.4,
+    node: (
+      <p className="font-display text-[1.1rem] italic text-gold sm:text-[1.3rem]">
+        St. Tropez &nbsp; &#8594; &nbsp; Nice
+      </p>
+    ),
+  },
+];
 
 export default function Hero() {
+  const { scrollY } = useScroll();
+  const backgroundY = useTransform(scrollY, [0, 500], [0, 200]);
+  const scrollIndicatorOpacity = useTransform(scrollY, [0, 100], [1, 0]);
+  const overlayOpacity = useTransform(scrollY, [0, 400], [1, 0.92]);
+  const overlayBackground = useMotionTemplate`linear-gradient(to bottom, rgba(44, 36, 22, ${useTransform(
+    overlayOpacity,
+    [0.92, 1],
+    [0.51, 0.2],
+  )}) 0%, rgba(44, 36, 22, ${useTransform(overlayOpacity, [0.92, 1], [0.88, 0.55])}) 100%)`;
+
   return (
     <section
       id="home"
-      className="relative isolate overflow-hidden px-4 pb-16 pt-28 md:px-8 md:pb-24 md:pt-32"
+      className="relative flex h-screen min-h-[100dvh] items-center justify-center overflow-hidden"
     >
-      <div className="absolute inset-0 -z-20 bg-sun-wash" />
-      <div className="absolute left-1/2 top-24 -z-10 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-gold/15 blur-3xl" />
+      <motion.div
+        className="hero-bg absolute inset-0"
+        initial={{ scale: 1.08 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 8, ease: "easeOut" }}
+        style={{ y: backgroundY }}
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(135deg, #2C2416 0%, #C9876A 50%, #D4A853 100%)",
+          }}
+        />
+      </motion.div>
 
-      <div className="section-shell grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={slideLeft}
-          className="max-w-2xl"
-        >
-          <span className="section-label">Sanat & Sneha</span>
-          <h1 className="font-display text-6xl font-light leading-[0.88] tracking-tight text-espresso sm:text-7xl lg:text-[7.5rem]">
-            Notre
-            <span className="block italic text-terracotta">Beau Voyage</span>
-          </h1>
-          <p className="mt-6 max-w-xl text-lg leading-8 text-espresso/78 md:text-xl">
-            A vow renewal journey along the French Riviera, from St. Tropez to Nice, as
-            we celebrate ten years together and welcome a new chapter by the sea.
-          </p>
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          background: overlayBackground,
+        }}
+      />
 
-          <div className="mt-8 flex flex-col gap-4 text-sm uppercase tracking-[0.28em] text-espresso/70 sm:flex-row sm:items-center">
-            <span>26 April to 1 May 2025</span>
-            <span className="hidden h-1 w-1 rounded-full bg-terracotta sm:block" />
-            <span>Anniversary on 29 April</span>
-          </div>
-
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <a
-              href="#invitation"
-              className="inline-flex items-center justify-center rounded-full bg-terracotta px-8 py-4 text-sm uppercase tracking-[0.26em] text-ivory transition-transform duration-300 hover:-translate-y-0.5"
+      <div className="section-shell relative z-10 flex flex-col items-center px-2 pt-20 text-center sm:pt-24">
+        <div className="flex max-w-5xl flex-col items-center gap-4 sm:gap-5">
+          {contentItems.map((item) => (
+            <motion.div
+              key={item.key}
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: item.delay, duration: 0.9, ease: "easeOut" }}
+              className="w-full"
             >
-              Read Our Invitation
-            </a>
-            <a
-              href="#journey"
-              className="inline-flex items-center justify-center rounded-full border border-token px-8 py-4 text-sm uppercase tracking-[0.26em] text-espresso transition-colors duration-300 hover:bg-ivory/70"
-            >
-              Explore the Itinerary
-            </a>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={slideRight}
-          className="relative min-h-[32rem]"
-        >
-          <motion.div
-            variants={scaleUp}
-            className="absolute right-0 top-0 w-[72%] overflow-hidden rounded-[2.5rem] border border-token bg-ivory p-3 shadow-card"
-          >
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem]">
-              <Image
-                src="/images/riviera-arch.svg"
-                alt="Riviera archway and coastline illustration"
-                fill
-                sizes="(max-width: 1024px) 80vw, 34vw"
-                className="object-cover"
-                priority
-              />
-            </div>
-          </motion.div>
-
-          <motion.div
-            variants={fadeUp}
-            className="card-surface absolute bottom-2 left-0 w-[62%] rounded-[2rem] p-3"
-          >
-            <div className="relative aspect-[5/6] overflow-hidden rounded-[1.5rem]">
-              <Image
-                src="/images/anniversary-bouquet.svg"
-                alt="Anniversary bouquet illustration"
-                fill
-                sizes="(max-width: 1024px) 60vw, 24vw"
-                className="object-cover"
-              />
-            </div>
-          </motion.div>
-
-          <motion.div
-            variants={fadeUp}
-            className="card-surface absolute bottom-6 right-8 max-w-xs rounded-[1.75rem] px-6 py-5"
-          >
-            <p className="text-xs uppercase tracking-[0.28em] text-terracotta">29 April</p>
-            <p className="mt-3 font-display text-3xl italic leading-tight text-espresso">
-              Ten years, one shoreline, and vows renewed under the Riviera sun.
-            </p>
-          </motion.div>
-        </motion.div>
+              {item.node}
+            </motion.div>
+          ))}
+        </div>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 0.8, ease: "easeOut" }}
+        style={{ opacity: scrollIndicatorOpacity }}
+        className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center sm:bottom-10"
+      >
+        <p className="font-body text-[0.6rem] font-light uppercase tracking-[0.18em] text-white/50 sm:text-[0.65rem] sm:tracking-[0.2em]">
+          Scroll
+        </p>
+        <motion.span
+          aria-hidden="true"
+          animate={{ y: [0, 12, 0] }}
+          transition={{ duration: 1.8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          className="mt-2 h-10 w-px bg-gold sm:mt-3 sm:h-12"
+        />
+      </motion.div>
     </section>
   );
 }
