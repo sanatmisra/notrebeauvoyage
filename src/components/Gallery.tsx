@@ -1,9 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import { motion } from "framer-motion";
+import { useMemo } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
-import { fadeUp, staggerContainer, viewport } from "@/lib/animations";
+import ImageCard from "@/components/ImageCard";
+import { getFadeUp, getStaggerContainer, viewport } from "@/lib/animations";
 import type { GalleryItem } from "@/types";
 
 type GalleryProps = {
@@ -11,6 +12,10 @@ type GalleryProps = {
 };
 
 export default function Gallery({ items }: GalleryProps) {
+  const reduceMotion = !!useReducedMotion();
+  const fadeUp = useMemo(() => getFadeUp(!!reduceMotion), [reduceMotion]);
+  const staggerContainer = useMemo(() => getStaggerContainer(!!reduceMotion), [reduceMotion]);
+
   return (
     <motion.section
       id="gallery"
@@ -38,14 +43,17 @@ export default function Gallery({ items }: GalleryProps) {
               className={`card-surface overflow-hidden rounded-[2rem] p-3 ${
                 index === 0 ? "lg:translate-y-8" : ""
               } ${index === 2 ? "lg:-translate-y-8" : ""}`}
+              data-cursor-target
             >
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[1.6rem]">
-                <Image
+              <div className="relative overflow-hidden rounded-[1.6rem]">
+                <ImageCard
                   src={item.src}
                   alt={item.alt}
-                  fill
+                  width={1200}
+                  height={1500}
                   sizes="(max-width: 1024px) 100vw, 30vw"
-                  className="object-cover transition-transform duration-700 hover:scale-105"
+                  className="relative"
+                  imageClassName="h-auto w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
               </div>
               <figcaption className="px-3 pb-2 pt-5">

@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useMemo } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
-import { fadeUp, slideLeft, slideRight, viewport } from "@/lib/animations";
+import { getFadeUp, getSlideLeft, getSlideRight, viewport } from "@/lib/animations";
 
 const notes = [
   {
@@ -24,8 +25,13 @@ const notes = [
 ];
 
 export default function GuestInfo() {
+  const reduceMotion = !!useReducedMotion();
+  const fadeUp = useMemo(() => getFadeUp(!!reduceMotion), [reduceMotion]);
+  const slideLeft = useMemo(() => getSlideLeft(!!reduceMotion), [reduceMotion]);
+  const slideRight = useMemo(() => getSlideRight(!!reduceMotion), [reduceMotion]);
+
   return (
-    <section id="guest-info" className="py-20 md:py-28">
+    <section id="guests" className="py-20 md:py-28">
       <div className="section-shell grid gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
         <motion.div
           initial="hidden"
@@ -33,6 +39,7 @@ export default function GuestInfo() {
           viewport={viewport}
           variants={slideLeft}
           className="card-surface rounded-[2.5rem] px-8 py-10 md:px-10 md:py-12"
+          data-cursor-target
         >
           <span className="section-label">Guest Notes</span>
           <h2 className="font-display text-5xl font-light leading-none tracking-tight text-espresso md:text-6xl">
@@ -57,6 +64,7 @@ export default function GuestInfo() {
               key={note.title}
               variants={fadeUp}
               className="rounded-[1.75rem] border border-token bg-ivory/78 px-6 py-7"
+              data-cursor-target
             >
               <p className="text-xs uppercase tracking-[0.28em] text-terracotta">{note.title}</p>
               <p className="mt-4 text-base leading-8 text-espresso/75">{note.body}</p>
