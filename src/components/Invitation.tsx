@@ -1,10 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useMemo } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
-import { fadeUp, staggerContainer, viewport } from "@/lib/animations";
+import { getFadeUp, getStaggerContainer, viewport } from "@/lib/animations";
 
 export default function Invitation() {
+  const reduceMotion = !!useReducedMotion();
+  const fadeUp = useMemo(() => getFadeUp(!!reduceMotion), [reduceMotion]);
+  const staggerContainer = useMemo(() => getStaggerContainer(!!reduceMotion), [reduceMotion]);
+
   return (
     <motion.section
       id="invitation"
@@ -23,6 +28,7 @@ export default function Invitation() {
         <motion.div
           variants={fadeUp}
           className="card-surface rounded-[2.25rem] px-7 py-8 md:px-10 md:py-12"
+          data-cursor-target
         >
           <p className="font-display text-3xl font-light italic leading-tight text-terracotta md:text-4xl">
             Join us for a week shaped by blue water, old harbors, and the joy of

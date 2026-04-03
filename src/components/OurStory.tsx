@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useMemo } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
-import { fadeUp, slideLeft, slideRight, viewport } from "@/lib/animations";
+import { getFadeUp, getSlideLeft, getSlideRight, viewport } from "@/lib/animations";
 
 const storyNotes = [
   "From our first chapter in India to the life we have built together in Munich.",
@@ -11,6 +12,11 @@ const storyNotes = [
 ];
 
 export default function OurStory() {
+  const reduceMotion = !!useReducedMotion();
+  const fadeUp = useMemo(() => getFadeUp(!!reduceMotion), [reduceMotion]);
+  const slideLeft = useMemo(() => getSlideLeft(!!reduceMotion), [reduceMotion]);
+  const slideRight = useMemo(() => getSlideRight(!!reduceMotion), [reduceMotion]);
+
   return (
     <section id="our-story" className="py-20 md:py-28">
       <div className="section-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
@@ -20,6 +26,7 @@ export default function OurStory() {
           viewport={viewport}
           variants={slideLeft}
           className="rounded-[2.5rem] border border-token bg-espresso px-8 py-10 text-ivory shadow-card md:px-10 md:py-14"
+          data-cursor-target
         >
           <span className="section-label !text-gold before:!bg-gold/60">Our Story</span>
           <h2 className="font-display text-5xl font-light leading-none tracking-tight md:text-6xl">
@@ -45,6 +52,7 @@ export default function OurStory() {
               key={note}
               variants={fadeUp}
               className="card-surface rounded-[2rem] px-7 py-8 md:px-8"
+              data-cursor-target
             >
               <p className="text-xs uppercase tracking-[0.3em] text-terracotta">
                 Chapter {index + 1}

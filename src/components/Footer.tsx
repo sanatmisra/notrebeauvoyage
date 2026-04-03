@@ -1,10 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useMemo } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
-import { fadeUp, viewport } from "@/lib/animations";
+import { getFadeUp, viewport } from "@/lib/animations";
 
 export default function Footer() {
+  const reduceMotion = !!useReducedMotion();
+  const fadeUp = useMemo(() => getFadeUp(!!reduceMotion), [reduceMotion]);
+
   return (
     <motion.footer
       initial="hidden"
