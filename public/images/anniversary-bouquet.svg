@@ -1,0 +1,16 @@
+<svg width="1200" height="1500" viewBox="0 0 1200 1500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1500" fill="#FDFAF6"/>
+  <rect x="88" y="88" width="1024" height="1324" rx="50" fill="#F6EEE2" stroke="#C9876A" stroke-opacity="0.35" stroke-width="2"/>
+  <circle cx="604" cy="504" r="220" fill="#E5C065" fill-opacity="0.3"/>
+  <circle cx="460" cy="498" r="110" fill="#C9876A" fill-opacity="0.82"/>
+  <circle cx="648" cy="430" r="130" fill="#DFA38A"/>
+  <circle cx="768" cy="572" r="104" fill="#C9876A" fill-opacity="0.7"/>
+  <circle cx="560" cy="650" r="92" fill="#8B9E8A" fill-opacity="0.9"/>
+  <circle cx="716" cy="698" r="88" fill="#D4A853" fill-opacity="0.72"/>
+  <path d="M424 788C496 860 548 964 582 1100" stroke="#8B9E8A" stroke-width="16" stroke-linecap="round"/>
+  <path d="M604 786C624 874 631 980 622 1118" stroke="#8B9E8A" stroke-width="16" stroke-linecap="round"/>
+  <path d="M786 786C731 866 687 978 654 1122" stroke="#8B9E8A" stroke-width="16" stroke-linecap="round"/>
+  <path d="M514 1156C578 1188 632 1188 686 1156" stroke="#C9876A" stroke-width="20" stroke-linecap="round"/>
+  <path d="M474 1228C560 1257 646 1255 734 1220" stroke="#2C2416" stroke-opacity="0.18" stroke-width="14" stroke-linecap="round"/>
+  <text x="600" y="1340" text-anchor="middle" fill="#2C2416" fill-opacity="0.7" font-family="Georgia, serif" font-size="72" font-style="italic">29 Avril</text>
+</svg>
