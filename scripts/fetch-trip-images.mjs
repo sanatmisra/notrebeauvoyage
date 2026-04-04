@@ -6,53 +6,98 @@ import { mkdir } from "node:fs/promises";
 const images = [
   {
     filename: "bern.jpg",
-    url: "https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=1600&q=80",
+    url: "https://unsplash.com/photos/MxyPC5Tgulc/download?force=true&w=1600",
   },
   {
     filename: "annecy.jpg",
-    url: "https://images.unsplash.com/photo-1580820267682-426da823b514?w=1600&q=80",
+    url: "https://unsplash.com/photos/RinqqoOeXlM/download?force=true&w=1600",
   },
   {
     filename: "nice-monaco.jpg",
-    url: "https://images.unsplash.com/photo-1491166617655-0723a0f3d54b?w=1600&q=80",
+    url: "https://unsplash.com/photos/8b7W_g0ZeGc/download?force=true&w=1600",
   },
   {
     filename: "st-tropez.jpg",
-    url: "https://images.unsplash.com/photo-1533561052604-c3beb6d55b8d?w=1600&q=80",
+    url: "https://unsplash.com/photos/q717iK4xsMI/download?force=true&w=1600",
   },
   {
     filename: "lausanne.jpg",
-    url: "https://images.unsplash.com/photo-1574870111867-089730e5a72b?w=1600&q=80",
+    url: "https://unsplash.com/photos/RG0-tyf_yt4/download?force=true&w=1600",
   },
   {
     filename: "bern-farewell.jpg",
-    url: "https://images.unsplash.com/photo-1527668752968-14dc70a27c95?w=1600&q=80",
+    url: "https://unsplash.com/photos/jYEWR8beevI/download?force=true&w=1600",
   },
 ];
 
-async function fetchImage(url, dest) {
-  await mkdir(path.dirname(dest), { recursive: true });
-
+function fetchImage(url, destination, redirects = 0) {
   return new Promise((resolve, reject) => {
-    const file = createWriteStream(dest);
+    const request = https.get(
+      url,
+      {
+        headers: {
+          "User-Agent": "notrebeauvoyage-image-fetcher/1.0",
+        },
+      },
+      (response) => {
+        const statusCode = response.statusCode ?? 0;
+        const location = response.headers.location;
 
-    https
-      .get(url, (response) => {
+        if (
+          location &&
+          statusCode >= 300 &&
+          statusCode < 400
+        ) {
+          response.resume();
+
+          if (redirects >= 5) {
+            reject(new Error(`Too many redirects for ${url}`));
+            return;
+          }
+
+          const nextUrl = new URL(location, url).toString();
+          fetchImage(nextUrl, destination, redirects + 1).then(resolve).catch(reject);
+          return;
+        }
+
+        if (statusCode < 200 || statusCode >= 300) {
+          response.resume();
+          reject(new Error(`Failed to fetch ${url} (${statusCode})`));
+          return;
+        }
+
+        const file = createWriteStream(destination);
+
         response.pipe(file);
+
         file.on("finish", () => {
-          file.close();
-          resolve();
+          file.close((error) => {
+            if (error) {
+              reject(error);
+              return;
+            }
+
+            resolve();
+          });
         });
-      })
-      .on("error", reject);
+
+        file.on("error", (error) => {
+          reject(error);
+        });
+      },
+    );
+
+    request.on("error", reject);
   });
 }
 
-for (const img of images) {
-  const dest = `public/images/trip/${img.filename}`;
-  console.log(`Fetching ${img.filename}...`);
-  await fetchImage(img.url, dest);
-  console.log(`✓ Saved ${dest}`);
+for (const image of images) {
+  const destination = path.join("public/images/trip", image.filename);
+
+  await mkdir(path.dirname(destination), { recursive: true });
+  console.log(`Fetching ${image.filename}...`);
+  await fetchImage(image.url, destination);
+  console.log(`Saved ${destination}`);
 }
 
-console.log("All images fetched.");
+console.log("All trip images fetched.");
