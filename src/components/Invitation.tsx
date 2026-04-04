@@ -1,31 +1,26 @@
 "use client";
 
-import { useMemo } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m } from "framer-motion";
 
-import { getFadeUp, getStaggerContainer, viewport } from "@/lib/animations";
+import { fadeUp, staggerContainer, viewport } from "@/lib/animations";
 
 export default function Invitation() {
-  const reduceMotion = !!useReducedMotion();
-  const fadeUp = useMemo(() => getFadeUp(!!reduceMotion), [reduceMotion]);
-  const staggerContainer = useMemo(() => getStaggerContainer(!!reduceMotion), [reduceMotion]);
-
   return (
-    <motion.section
+    <m.section
       id="invitation"
-      initial="hidden"
+      initial={false}
       whileInView="visible"
       viewport={viewport}
       variants={staggerContainer}
-      className="py-20 md:py-28"
+      className="py-20 md:py-28 motion-safe:transform-gpu"
     >
       <div className="section-shell grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:gap-16">
-        <motion.div variants={fadeUp}>
+        <m.div variants={fadeUp}>
           <span className="section-label">Invitation</span>
           <h2 className="section-title">Come away with us.</h2>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           variants={fadeUp}
           className="card-surface rounded-[2.25rem] px-7 py-8 md:px-10 md:py-12"
           data-cursor-target
@@ -46,8 +41,8 @@ export default function Invitation() {
               memories.
             </p>
           </div>
-        </motion.div>
+        </m.div>
       </div>
-    </motion.section>
+    </m.section>
   );
 }

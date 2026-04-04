@@ -1,66 +1,79 @@
-import type { Variants } from "framer-motion";
+import { Variants } from "framer-motion";
 
-export const getFadeUp = (reducedMotion = false): Variants => ({
-  hidden: { opacity: 0, y: reducedMotion ? 0 : 40 },
+export const fadeUp: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.9, ease: "easeOut" },
+    transition: {
+      duration: 0.6,
+      ease: [0.21, 0.47, 0.32, 0.98],
+    },
   },
-});
+};
 
-export const getFadeIn = (): Variants => ({
+export const fadeIn: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { duration: 0.8 },
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
   },
-});
+};
 
-export const getStaggerContainer = (reducedMotion = false): Variants => ({
+export const staggerContainer: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: reducedMotion ? 0 : 0.15,
+      staggerChildren: 0.1,
+      delayChildren: 0.05,
     },
   },
-});
+};
 
-export const getSlideLeft = (reducedMotion = false): Variants => ({
-  hidden: { opacity: 0, x: reducedMotion ? 0 : -50 },
+export const slideLeft: Variants = {
+  hidden: { opacity: 0, x: -32 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.8, ease: "easeOut" },
+    transition: {
+      duration: 0.6,
+      ease: [0.21, 0.47, 0.32, 0.98],
+    },
   },
-});
+};
 
-export const getSlideRight = (reducedMotion = false): Variants => ({
-  hidden: { opacity: 0, x: reducedMotion ? 0 : 50 },
+export const slideRight: Variants = {
+  hidden: { opacity: 0, x: 32 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.8, ease: "easeOut" },
+    transition: {
+      duration: 0.6,
+      ease: [0.21, 0.47, 0.32, 0.98],
+    },
   },
-});
+};
 
-export const getScaleUp = (reducedMotion = false): Variants => ({
-  hidden: { opacity: 0, scale: reducedMotion ? 1 : 0.92 },
+export const scaleUp: Variants = {
+  hidden: { opacity: 0, scale: 0.96 },
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.8, ease: "easeOut" },
+    transition: {
+      duration: 0.55,
+      ease: [0.21, 0.47, 0.32, 0.98],
+    },
   },
-});
-
-export const fadeUp = getFadeUp();
-export const fadeIn = getFadeIn();
-export const staggerContainer = getStaggerContainer();
-export const slideLeft = getSlideLeft();
-export const slideRight = getSlideRight();
-export const scaleUp = getScaleUp();
+};
 
 export const viewport = {
   once: true,
-  margin: "-100px",
+  amount: 0.1,
+  margin: "0px 0px -50px 0px",
 };

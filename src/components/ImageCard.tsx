@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
 type ImageCardProps = {
@@ -30,17 +29,17 @@ export default function ImageCard({
     <div className={className}>
       <div
         aria-hidden="true"
-        className={`absolute inset-0 animate-pulse bg-gradient-to-br from-linen-dark to-gold/20 transition-opacity duration-500 ${
+        className={`absolute inset-0 bg-gradient-to-br from-linen-dark to-gold/15 transition-opacity duration-300 ${
           loaded ? "opacity-0" : "opacity-100"
         }`}
       />
-      <Image
+      <img
         src={src}
         alt={alt}
         width={width}
         height={height}
-        priority={priority}
-        loading={priority ? "eager" : "lazy"}
+        loading={priority ? "eager" : "eager"}
+        fetchPriority={priority ? "high" : "auto"}
         sizes={sizes}
         className={imageClassName}
         onLoad={() => setLoaded(true)}

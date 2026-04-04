@@ -1,9 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m } from "framer-motion";
 
-import { getFadeUp, getSlideLeft, getSlideRight, viewport } from "@/lib/animations";
+import { fadeUp, slideLeft, slideRight, viewport } from "@/lib/animations";
 
 const storyNotes = [
   "From our first chapter in India to the life we have built together in Munich.",
@@ -12,20 +11,15 @@ const storyNotes = [
 ];
 
 export default function OurStory() {
-  const reduceMotion = !!useReducedMotion();
-  const fadeUp = useMemo(() => getFadeUp(!!reduceMotion), [reduceMotion]);
-  const slideLeft = useMemo(() => getSlideLeft(!!reduceMotion), [reduceMotion]);
-  const slideRight = useMemo(() => getSlideRight(!!reduceMotion), [reduceMotion]);
-
   return (
     <section id="our-story" className="py-20 md:py-28">
       <div className="section-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-        <motion.div
-          initial="hidden"
+        <m.div
+          initial={false}
           whileInView="visible"
           viewport={viewport}
           variants={slideLeft}
-          className="rounded-[2.5rem] border border-token bg-espresso px-8 py-10 text-ivory shadow-card md:px-10 md:py-14"
+          className="rounded-[2.5rem] border border-token bg-espresso px-8 py-10 text-ivory shadow-card motion-safe:transform-gpu md:px-10 md:py-14"
           data-cursor-target
         >
           <span className="section-label !text-gold before:!bg-gold/60">Our Story</span>
@@ -38,17 +32,17 @@ export default function OurStory() {
             French Riviera felt right for the same reason our life together has felt right:
             it is warm, textured, elegant, and best enjoyed slowly.
           </p>
-        </motion.div>
+        </m.div>
 
-        <motion.div
-          initial="hidden"
+        <m.div
+          initial={false}
           whileInView="visible"
           viewport={viewport}
           variants={slideRight}
-          className="space-y-6"
+          className="space-y-6 motion-safe:transform-gpu"
         >
           {storyNotes.map((note, index) => (
-            <motion.article
+            <m.article
               key={note}
               variants={fadeUp}
               className="card-surface rounded-[2rem] px-7 py-8 md:px-8"
@@ -60,9 +54,9 @@ export default function OurStory() {
               <p className="mt-4 font-display text-3xl font-light leading-tight text-espresso md:text-4xl">
                 {note}
               </p>
-            </motion.article>
+            </m.article>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );
