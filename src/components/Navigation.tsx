@@ -40,8 +40,16 @@ export default function Navigation() {
           onClick={() => smoothScrollTo("#home")}
           className="min-h-11 shrink-0 px-2 text-center text-ivory"
         >
-          <span className="block font-display text-[1.15rem] italic leading-none tracking-wide text-ivory md:text-[1.6rem]">
-            Notre Beau Voyage
+          <span className="flex items-center justify-center gap-2 md:gap-3">
+            <span className="text-[1rem] leading-none md:text-[1.35rem]" aria-hidden="true">
+              🇫🇷
+            </span>
+            <span className="block font-display text-[1.15rem] italic leading-none tracking-wide text-ivory md:text-[1.6rem]">
+              Notre Beau Voyage
+            </span>
+            <span className="text-[1rem] leading-none md:text-[1.35rem]" aria-hidden="true">
+              🚗
+            </span>
           </span>
           <span className="mt-1 block font-body text-[0.62rem] font-medium uppercase tracking-[0.2em] text-gold/85 md:text-[0.72rem]">
             Our beautiful journey

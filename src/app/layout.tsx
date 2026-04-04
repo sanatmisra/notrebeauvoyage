@@ -26,13 +26,14 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%232C2416'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-size='26' fill='%23D4A853'%3E%E2%97%86%3C/text%3E%3C/svg%3E",
+        url: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3CclipPath id='c'%3E%3Ccircle cx='32' cy='32' r='30'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23c)'%3E%3Crect x='2' y='2' width='20' height='60' fill='%230055A4'/%3E%3Crect x='22' y='2' width='20' height='60' fill='%23FFFFFF'/%3E%3Crect x='42' y='2' width='20' height='60' fill='%23EF4135'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='30' fill='none' stroke='rgba(44,36,22,0.28)' stroke-width='2'/%3E%3C/svg%3E",
       },
     ],
   },
   openGraph: {
-    title: "Sneha & Sanat · Notre Beau Voyage",
-    description: "You are warmly invited to celebrate with us on the Côte d'Azur. April 2025.",
+    title: "Sneha & Sanat · 10 Year Anniversary",
+    description:
+      "You are warmly invited to celebrate our vow renewal on the Côte d'Azur. April 2025 · Notre Beau Voyage",
     url: BASE_URL,
     siteName: "Notre Beau Voyage",
     images: [
@@ -48,8 +49,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sneha & Sanat · Notre Beau Voyage",
-    description: "You are warmly invited to celebrate with us on the Côte d'Azur. April 2025.",
+    title: "Sneha & Sanat · 10 Year Anniversary",
+    description:
+      "You are warmly invited to celebrate our vow renewal on the Côte d'Azur. April 2025 · Notre Beau Voyage",
     images: ["/opengraph-image"],
   },
 };

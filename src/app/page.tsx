@@ -14,7 +14,17 @@ export default function Home() {
       <main className="relative z-10 overflow-x-hidden">
         <Navigation />
         <Hero />
+        <div className="section-divider" aria-hidden="true">
+          <span className="section-divider__line" />
+          <span className="section-divider__ornament">◆</span>
+          <span className="section-divider__line" />
+        </div>
         <TheJourney />
+        <div className="section-divider section-divider--compact" aria-hidden="true">
+          <span className="section-divider__line" />
+          <span className="section-divider__ornament">◆</span>
+          <span className="section-divider__line" />
+        </div>
         <Footer />
         <BackToTop />
       </main>
