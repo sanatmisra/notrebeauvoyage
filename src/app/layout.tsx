@@ -1,12 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import dynamic from "next/dynamic";
 import { Cormorant_Garamond, Jost } from "next/font/google";
 
 import "./globals.css";
 
-const AmbientLight = dynamic(() => import("@/components/AmbientLight"), {
-  ssr: false,
-});
+const BASE_URL = "https://www.notrebeauvoyage.com";
 
 const display = Cormorant_Garamond({
   subsets: ["latin"],
@@ -22,9 +19,10 @@ const body = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "Notre Beau Voyage · Sanat & Sneha · Côte d'Azur 2025",
+  metadataBase: new URL(BASE_URL),
+  title: "Notre Beau Voyage · Sneha & Sanat · Côte d'Azur 2025",
   description:
-    "Join us on the French Riviera as we celebrate ten years together. St. Tropez to Nice, 26 April – 1 May 2025.",
+    "Join us on the French Riviera as we celebrate ten years together. St. Tropez to Nice, 25 April – 2 May 2025.",
   icons: {
     icon: [
       {
@@ -33,10 +31,26 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Notre Beau Voyage · Sanat & Sneha · Côte d'Azur 2025",
-    description:
-      "Join us on the French Riviera as we celebrate ten years together. St. Tropez to Nice, 26 April – 1 May 2025.",
+    title: "Sneha & Sanat · Notre Beau Voyage",
+    description: "You are warmly invited to celebrate with us on the Côte d'Azur. April 2025.",
+    url: BASE_URL,
+    siteName: "Notre Beau Voyage",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Sneha & Sanat · Notre Beau Voyage · Côte d'Azur 2025",
+      },
+    ],
+    locale: "en_US",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sneha & Sanat · Notre Beau Voyage",
+    description: "You are warmly invited to celebrate with us on the Côte d'Azur. April 2025.",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -56,11 +70,13 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){document.documentElement.style.setProperty('--animation-play-state','paused');window.addEventListener('DOMContentLoaded',function(){document.documentElement.style.setProperty('--animation-play-state','running');});})();`,
+          }}
+        />
       </head>
-      <body>
-        <AmbientLight />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

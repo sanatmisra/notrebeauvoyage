@@ -1,8 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-
-import { getFadeUp } from "@/lib/animations";
+import { m, useReducedMotion, useScroll, useTransform } from "framer-motion";
 
 const grainOverlay =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")";
@@ -11,7 +9,6 @@ export default function Hero() {
   const reduceMotion = !!useReducedMotion();
   const { scrollY } = useScroll();
   const scrollCueOpacity = useTransform(scrollY, [0, 120], [1, 0]);
-  const fadeUp = getFadeUp(reduceMotion);
 
   return (
     <section
@@ -28,35 +25,21 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-[10%] h-64 bg-[radial-gradient(circle,rgba(201,135,106,0.16),transparent_68%)] blur-3xl" />
 
       <div className="section-shell relative z-10 py-24 text-center md:py-32">
-        <div className="mx-auto max-w-5xl rounded-[2.2rem] border border-[rgba(201,135,106,0.22)] bg-[linear-gradient(180deg,rgba(248,241,232,0.88),rgba(241,231,220,0.82))] px-6 py-14 shadow-[0_28px_80px_rgba(44,36,22,0.12)] backdrop-blur-[18px] sm:px-10 md:px-16 md:py-20">
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 0.15, duration: 0.9, ease: "easeOut" }}
-            className="mx-auto max-w-4xl font-body text-[0.8rem] font-medium uppercase leading-7 tracking-[0.24em] text-terracotta md:text-[0.92rem] md:leading-8"
+        <div className="mx-auto max-w-5xl rounded-[2.2rem] border border-[rgba(212,168,83,0.24)] bg-[linear-gradient(180deg,rgba(44,36,22,0.94),rgba(36,29,18,0.92))] px-6 py-14 text-ivory shadow-[0_28px_80px_rgba(44,36,22,0.28)] backdrop-blur-[18px] sm:px-10 md:px-16 md:py-20">
+          <p
+            className="mx-auto max-w-4xl font-body text-[0.8rem] font-medium uppercase leading-7 tracking-[0.24em] text-gold md:text-[0.92rem] md:leading-8"
           >
             You are warmly invited to our 10 year wedding anniversary celebration
-          </motion.p>
+          </p>
 
-          <motion.h1
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 0.3, duration: 0.9, ease: "easeOut" }}
-            className="mt-6 font-display font-light italic leading-[0.9] text-espresso"
+          <h1
+            className="mt-6 font-display font-light italic leading-[0.9] text-ivory"
             style={{ fontSize: "clamp(3.9rem, 10vw, 7.2rem)" }}
           >
-            Sanat &amp; Sneha
-          </motion.h1>
+            Sneha &amp; Sanat
+          </h1>
 
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 0.45, duration: 0.9, ease: "easeOut" }}
-            className="mt-6 flex items-center justify-center gap-3 text-gold"
-          >
+          <div className="mt-6 flex items-center justify-center gap-3 text-gold">
             <span className="text-xs" aria-hidden="true">
               ◆
             </span>
@@ -64,50 +47,38 @@ export default function Hero() {
             <span className="text-xs" aria-hidden="true">
               ◆
             </span>
-          </motion.div>
+          </div>
 
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 0.6, duration: 0.9, ease: "easeOut" }}
-            className="mt-7 font-body text-[1rem] font-medium uppercase tracking-[0.28em] text-espresso/78 md:text-[1.06rem]"
+          <p
+            className="mt-7 font-body text-[1rem] font-medium uppercase tracking-[0.28em] text-ivory/80 md:text-[1.06rem]"
           >
             29 April 2025
-          </motion.p>
+          </p>
 
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 0.75, duration: 0.9, ease: "easeOut" }}
-            className="mt-4 font-display text-[1.45rem] italic text-terracotta md:text-[1.8rem]"
+          <p
+            className="mt-4 font-display text-[1.45rem] italic text-gold md:text-[1.8rem]"
           >
             C&#244;te d&apos;Azur
-          </motion.p>
+          </p>
 
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 0.9, duration: 0.9, ease: "easeOut" }}
-            className="mx-auto mt-9 max-w-3xl text-[1.08rem] leading-8 text-espresso/74 md:text-[1.24rem] md:leading-9"
+          <p
+            className="mx-auto mt-9 max-w-3xl text-[1.08rem] leading-8 text-ivory/78 md:text-[1.24rem] md:leading-9"
           >
             We want to start the next decade of memories with you all - our close and beloved ones.
-          </motion.p>
+            In your presence during this trip, we will symbolically renew our vows to one
+            another and mark the beginning of the next decade of love, friendship, and
+            shared memories.
+          </p>
         </div>
 
-        <motion.div
+        <m.div
           style={{ opacity: scrollCueOpacity }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.8, ease: "easeOut" }}
-          className="mt-10 flex flex-col items-center"
+          className="mt-10 flex flex-col items-center motion-safe:transform-gpu"
         >
-          <p className="font-body text-[0.76rem] font-medium uppercase tracking-[0.2em] text-espresso/50">
+          <p className="font-body text-[0.85rem] font-semibold uppercase tracking-[0.24em] text-espresso/60">
             Scroll
           </p>
-          <motion.span
+          <m.span
             aria-hidden="true"
             animate={reduceMotion ? undefined : { y: [0, 12, 0] }}
             transition={
@@ -115,9 +86,9 @@ export default function Hero() {
                 ? undefined
                 : { duration: 1.8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }
             }
-            className="mt-3 h-12 w-px bg-gold"
+            className="mt-3 h-14 w-[2px] bg-gold"
           />
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

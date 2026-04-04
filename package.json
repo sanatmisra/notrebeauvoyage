@@ -6,13 +6,14 @@
     "node": "22.x"
   },
   "scripts": {
-    "dev": "node scripts/dev.mjs",
-    "build": "next build",
-    "start": "next start",
+    "dev": "next dev",
+    "build": "next build && node scripts/prepare-standalone.mjs",
+    "start": "node .next/standalone/server.js",
     "lint": "next lint",
     "fetch-images": "node scripts/fetch-trip-images.mjs"
   },
   "dependencies": {
+    "critters": "^0.0.23",
     "framer-motion": "^11.11.17",
     "next": "14.2.35",
     "react": "^18.3.1",

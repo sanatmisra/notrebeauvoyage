@@ -1,10 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m } from "framer-motion";
 
 import ImageCard from "@/components/ImageCard";
-import { getFadeUp, getStaggerContainer, viewport } from "@/lib/animations";
+import { fadeUp, staggerContainer, viewport } from "@/lib/animations";
 
 const palette = [
   { label: "Light blue", className: "bg-sky-200" },
@@ -16,21 +15,17 @@ const palette = [
 ];
 
 export default function ThemeSection() {
-  const reduceMotion = !!useReducedMotion();
-  const fadeUp = useMemo(() => getFadeUp(reduceMotion), [reduceMotion]);
-  const stagger = useMemo(() => getStaggerContainer(reduceMotion), [reduceMotion]);
-
   return (
-    <motion.section
+    <m.section
       id="theme"
-      initial="hidden"
+      initial={false}
       whileInView="visible"
       viewport={viewport}
-      variants={stagger}
-      className="py-20 md:py-28"
+      variants={staggerContainer}
+      className="py-20 md:py-28 motion-safe:transform-gpu"
     >
       <div className="section-shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-        <motion.div variants={fadeUp}>
+        <m.div variants={fadeUp}>
           <span className="section-label">Theme</span>
           <h2 className="section-title">Theme for the celebration.</h2>
           <p className="section-copy mt-6">
@@ -47,9 +42,9 @@ export default function ThemeSection() {
               imageClassName="h-full w-full object-cover"
             />
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           variants={fadeUp}
           className="card-surface rounded-[2.25rem] px-7 py-8 md:px-10 md:py-12"
           data-cursor-target
@@ -102,8 +97,8 @@ export default function ThemeSection() {
               </p>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
-    </motion.section>
+    </m.section>
   );
 }

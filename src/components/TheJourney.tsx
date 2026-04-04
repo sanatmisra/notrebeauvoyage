@@ -1,10 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m } from "framer-motion";
 
 import ImageCard from "@/components/ImageCard";
-import { getFadeUp, getStaggerContainer, viewport } from "@/lib/animations";
+import { fadeUp, staggerContainer, viewport } from "@/lib/animations";
 
 type Chapter = {
   day: string;
@@ -105,14 +104,28 @@ const chapters: Chapter[] = [
     country: "Cote d'Azur",
     tagline: "The glamour of the coast",
     description:
-      "A Riviera day of flower markets, seaside promenades, and the drive east to Monaco.",
+      "We start the day by driving to Monaco and spending an hour or so there, then continue to Eze for lunch before heading to Nice for the rest of the day.",
     highlights: [
-      "Cours Saleya market",
-      "Promenade des Anglais",
-      "Monaco harbour and casino square",
+      "Morning in Monaco",
+      "Lunch in Eze",
+      "Afternoon and evening in Nice",
     ],
     imageSrc: "/images/trip/nice-monaco.jpg",
     imageAlt: "French Riviera coastline around Nice and Monaco",
+    links: [
+      {
+        label: "Parking Monaco",
+        href: "https://maps.app.goo.gl/4bo1uCaqbViqNFaH6",
+      },
+      {
+        label: "Parking Eze",
+        href: "https://maps.app.goo.gl/4hiX8hu85isr2Qnd9",
+      },
+      {
+        label: "Parking Nice",
+        href: "https://maps.app.goo.gl/T4XTN87FkvGfQocm7",
+      },
+    ],
   },
   {
     day: "Day 04",
@@ -123,10 +136,25 @@ const chapters: Chapter[] = [
     country: "Cote d'Azur",
     tagline: "The port, the market, the light",
     description:
-      "A westbound day for the market, painted boats, and an afternoon on the coast.",
-    highlights: ["Place des Lices market", "Port Saint-Tropez", "Pampelonne Beach"],
+      "The plan is to casually explore St Tropez without any time pressure, then head to a beach before returning home for the evening Indian themed dinner.",
+    highlights: [
+      "Slow day in St Tropez",
+      "Beach stop at Plage de Cavaliere",
+      "Back home for the Indian themed dinner",
+    ],
     imageSrc: "/images/trip/st-tropez.jpg",
     imageAlt: "Saint-Tropez harbour on the French Riviera",
+    links: [
+      {
+        label: "Parking St Tropez",
+        href: "https://maps.app.goo.gl/oeCiZ5fRx5qaHuFo7",
+      },
+      {
+        label: "Beach",
+        note: "Plage de Cavaliere",
+        href: "https://maps.app.goo.gl/j5ihyD7gBU2oR9CD8",
+      },
+    ],
   },
   {
     day: "Day 04 · Evening",
@@ -137,10 +165,11 @@ const chapters: Chapter[] = [
     country: "Roquebrune-sur-Argens",
     tagline: "A vibrant night back at the villa",
     description:
-      "After the day trip, we come back together for an Indian evening at the villa starting at 7 PM.",
-    highlights: ["Starts at 7 PM", "Indian evening celebration", "Dress code shown here"],
+      "After a long day spent outdoors in St Tropez, we come back home, dress up, enjoy some finger foods, and have a good time together for our Indian themed evening starting at 7 PM.",
+    highlights: ["Starts at 7 PM", "Finger foods and drinks", "Dress up and unwind together"],
     imageSrc: "/images/dress-code-indian-evening.jpg",
     imageAlt: "Indian evening dress code inspiration",
+    isSpecial: true,
     specialLabel: "Evening Event",
   },
   {
@@ -152,16 +181,35 @@ const chapters: Chapter[] = [
     country: "Provence, France",
     tagline: "Ten years. Again, yes.",
     description:
-      "The villa becomes the whole world for the ceremony, champagne, and our gala evening.",
+      "We spend the morning decorating the villa, then gather at 12 PM to take our vows again in front of you all. After that, the rest of the day is for relaxing at the villa, enjoying good food, music, and good vibes together. Dress code: Riviera Chic in soft summer pastels.",
     highlights: [
-      "Private vow renewal",
-      "Champagne celebration",
-      "Dinner under the Provençal sky",
+      "Morning villa setup",
+      "Vow renewal at 12 PM",
+      "Relaxed afternoon at the villa",
+      "Good food, music, and good vibes",
     ],
     imageSrc: "/images/dress-code-main-event.png",
     imageAlt: "Main event dress code inspiration",
     isSpecial: true,
     specialLabel: "Our Anniversary",
+    links: [
+      {
+        label: "Palette",
+        note: "Light blue, sage, blush, lavender, soft grey",
+      },
+      {
+        label: "Ladies",
+        note: "Flowing dresses in soft tones",
+      },
+      {
+        label: "Gentlemen",
+        note: "Light suits or linen, no tie required",
+      },
+      {
+        label: "Please avoid",
+        note: "Totally white and dark colors",
+      },
+    ],
   },
   {
     day: "Day 06",
@@ -190,6 +238,13 @@ const chapters: Chapter[] = [
     highlights: ["Departure from Provence", "Lake-side overnight stop", "Final dinner together"],
     imageSrc: "/images/trip/lausanne.jpg",
     imageAlt: "Lausanne above Lake Geneva in Switzerland",
+    links: [
+      {
+        label: "Stay",
+        note: "En Bellevue, 1163 Etoy, Switzerland",
+        href: "https://www.booking.com/Share-MOCew6X",
+      },
+    ],
   },
   {
     day: "Day 08",
@@ -214,9 +269,6 @@ function JourneyCard({
   chapter: Chapter;
   index: number;
 }) {
-  const reduceMotion = !!useReducedMotion();
-  const fadeUp = useMemo(() => getFadeUp(reduceMotion), [reduceMotion]);
-
   const handleCopy = async (value: string) => {
     try {
       await navigator.clipboard.writeText(value);
@@ -226,9 +278,9 @@ function JourneyCard({
   };
 
   return (
-    <motion.article
+    <m.article
       variants={fadeUp}
-      className={`relative grid gap-5 overflow-hidden rounded-[2rem] border border-espresso/10 bg-white/85 p-4 shadow-[0_20px_60px_rgba(44,36,22,0.08)] backdrop-blur md:grid-cols-[88px_minmax(0,260px)_1fr] md:gap-6 md:p-5 ${
+      className={`relative grid gap-5 overflow-hidden rounded-[2rem] border border-espresso/10 bg-white/85 p-4 shadow-[0_20px_60px_rgba(44,36,22,0.08)] backdrop-blur motion-safe:transform-gpu md:grid-cols-[88px_minmax(0,260px)_1fr] md:gap-6 md:p-5 ${
         chapter.isSpecial
           ? "border-terracotta/25 bg-[linear-gradient(135deg,rgba(201,135,106,0.17),rgba(212,168,83,0.14),rgba(255,255,255,0.92))] ring-1 ring-terracotta/30 shadow-[0_28px_80px_rgba(201,135,106,0.18)]"
           : ""
@@ -347,27 +399,23 @@ function JourneyCard({
           ) : null}
         </div>
       </div>
-    </motion.article>
+    </m.article>
   );
 }
 
 export default function TheJourney({}: TheJourneyProps) {
-  const reduceMotion = !!useReducedMotion();
-  const fadeUp = useMemo(() => getFadeUp(reduceMotion), [reduceMotion]);
-  const stagger = useMemo(() => getStaggerContainer(reduceMotion), [reduceMotion]);
-
   return (
     <section
       id="the-journey"
       className="relative overflow-hidden bg-[radial-gradient(circle_at_top,rgba(212,168,83,0.18),transparent_24%),linear-gradient(180deg,#f7f0e6_0%,#f4ecdf_52%,#efe4d5_100%)] py-24 md:py-32"
     >
       <div className="section-shell">
-        <motion.div
-          initial="hidden"
+        <m.div
+          initial={false}
           whileInView="visible"
           viewport={viewport}
           variants={fadeUp}
-          className="mx-auto max-w-3xl text-center"
+          className="mx-auto max-w-3xl text-center motion-safe:transform-gpu"
         >
           <p className="section-label justify-center">Trip Flow</p>
           <h2 className="section-title text-espresso">The Journey</h2>
@@ -384,14 +432,14 @@ export default function TheJourney({}: TheJourneyProps) {
             <span>Lausanne</span>
             <span>2 May</span>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div
-          initial="hidden"
+        <m.div
+          initial={false}
           whileInView="visible"
           viewport={viewport}
-          variants={stagger}
-          className="mt-14 grid gap-6 md:mt-16"
+          variants={staggerContainer}
+          className="mt-14 grid gap-6 motion-safe:transform-gpu md:mt-16"
         >
           {chapters.map((chapter, index) => (
             <JourneyCard
@@ -400,19 +448,19 @@ export default function TheJourney({}: TheJourneyProps) {
               index={index}
             />
           ))}
-        </motion.div>
+        </m.div>
 
-        <motion.div
-          initial="hidden"
+        <m.div
+          initial={false}
           whileInView="visible"
           viewport={viewport}
           variants={fadeUp}
-          className="mt-16 text-center"
+          className="mt-16 text-center motion-safe:transform-gpu"
         >
           <p className="font-display text-[1.35rem] italic text-espresso/56">
             And so the journey ends, until the next one.
           </p>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
+import { m, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function CustomCursor() {
@@ -48,7 +48,7 @@ export default function CustomCursor() {
   }
 
   return (
-    <motion.div
+    <m.div
       aria-hidden="true"
       className="pointer-events-none fixed left-0 top-0 z-[70] h-[14px] w-[14px] rounded-full bg-terracotta opacity-60 mix-blend-multiply"
       style={{ x: cursorX, y: cursorY, scale: active ? 2 : 1 }}
