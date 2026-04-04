@@ -93,6 +93,11 @@ const chapters: Chapter[] = [
         note: "Address and check-in details",
         href: "https://www.airbnb.com/trips/shared/3db89ab8-14da-447e-b328-aaf30e58fd38?confCode=HMJKJ34CWQ&principal_token=006e4da2-556c-4a6f-9ae1-91e85bc3beb4&s=67&unique_share_id=6e361074-cbdd-4c7d-848e-974542e195fd",
       },
+      {
+        label: "Airbnb",
+        note: "Villa listing",
+        href: "https://www.airbnb.com/rooms/1579595923568089207?guests=1&adults=1&s=67&unique_share_id=2d89b53f-a172-4a51-802a-1ce0f7790225",
+      },
     ],
   },
   {
@@ -417,7 +422,6 @@ export default function TheJourney({}: TheJourneyProps) {
           variants={fadeUp}
           className="mx-auto max-w-3xl text-center motion-safe:transform-gpu"
         >
-          <p className="section-label justify-center">Trip Flow</p>
           <h2 className="section-title text-espresso">The Journey</h2>
           <p className="mx-auto mt-5 max-w-2xl text-[1rem] leading-7 text-espresso/70">
             A tighter itinerary view for every stop, from the first meetup in Bern

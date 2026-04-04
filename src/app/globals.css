@@ -145,3 +145,31 @@ img {
   box-shadow: 0 24px 60px rgba(44, 36, 22, 0.08);
   backdrop-filter: blur(18px);
 }
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: -1.25rem auto 0;
+  padding: 0 1.5rem;
+  color: rgba(212, 168, 83, 0.8);
+}
+
+.section-divider--compact {
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-divider__line {
+  display: block;
+  width: min(24vw, 170px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 135, 106, 0.45), transparent);
+}
+
+.section-divider__ornament {
+  font-size: 0.8rem;
+  line-height: 1;
+  text-shadow: 0 0 18px rgba(212, 168, 83, 0.16);
+}
