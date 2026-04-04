@@ -118,3 +118,109 @@ img {
   box-shadow: 0 24px 60px rgba(44, 36, 22, 0.08);
   backdrop-filter: blur(18px);
 }
+
+.ambient-light-root {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ambient-light-svg {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.ambient-rays {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transition: opacity 1.8s ease;
+}
+
+.ambient-ray-shell {
+  position: absolute;
+  width: 0;
+  transform: translateZ(0);
+  animation-name: ambient-ray-float;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.ambient-ray-core {
+  border-radius: 999px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(212, 168, 83, var(--ray-opacity)) 30%,
+    rgba(212, 168, 83, var(--ray-opacity)) 70%,
+    transparent 100%
+  );
+  transform-origin: top center;
+  transform: translateZ(0);
+  animation-name: ambient-ray-drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  will-change: transform, opacity;
+}
+
+.ambient-blob-shell {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70vw;
+  height: 70vw;
+  opacity: 0.8;
+  transition: transform 2s ease, opacity 2s ease;
+  transform: translate3d(25vw, -5vh, 0);
+  will-change: transform, opacity;
+}
+
+.ambient-blob-core {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  filter: blur(80px);
+  transition: background 2s ease;
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+@keyframes ambient-ray-drift {
+  0% {
+    transform: rotate(var(--ray-start)) translateX(0) translateZ(0);
+    opacity: 0.4;
+  }
+  25% {
+    transform: rotate(var(--ray-mid)) translateX(var(--ray-drift-x)) translateZ(0);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(var(--ray-end)) translateX(0) translateZ(0);
+    opacity: 0.6;
+  }
+  75% {
+    transform: rotate(var(--ray-mid)) translateX(calc(var(--ray-drift-x) * -1)) translateZ(0);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--ray-start)) translateX(0) translateZ(0);
+    opacity: 0.4;
+  }
+}
+
+@keyframes ambient-ray-float {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -30px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}

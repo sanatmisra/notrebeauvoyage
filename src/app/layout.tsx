@@ -1,7 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import dynamic from "next/dynamic";
 import { Cormorant_Garamond, Jost } from "next/font/google";
 
 import "./globals.css";
+
+const AmbientLight = dynamic(() => import("@/components/AmbientLight"), {
+  ssr: false,
+});
 
 const display = Cormorant_Garamond({
   subsets: ["latin"],
@@ -52,7 +57,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body>{children}</body>
+      <body>
+        <AmbientLight />
+        {children}
+      </body>
     </html>
   );
 }

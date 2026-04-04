@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
-import { getFadeIn, getFadeUp } from "@/lib/animations";
+import { getFadeIn } from "@/lib/animations";
 import type { NavItem } from "@/types";
 
 type NavigationProps = {
@@ -14,28 +14,15 @@ const SECTION_OFFSET = 80;
 
 export default function Navigation({ items }: NavigationProps) {
   const reduceMotion = !!useReducedMotion();
-  const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeHref, setActiveHref] = useState<NavItem["href"]>(items[0]?.href ?? "#invitation");
   const fadeIn = useMemo(() => getFadeIn(), []);
-  const fadeUp = useMemo(() => getFadeUp(reduceMotion), [reduceMotion]);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   useEffect(() => {
@@ -68,13 +55,6 @@ export default function Navigation({ items }: NavigationProps) {
     return () => observer.disconnect();
   }, [items]);
 
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
   const smoothScrollTo = (href: NavItem["href"]) => {
     const target = document.querySelector(href);
     if (!(target instanceof HTMLElement)) {
@@ -83,7 +63,6 @@ export default function Navigation({ items }: NavigationProps) {
 
     const top = target.getBoundingClientRect().top + window.scrollY - SECTION_OFFSET;
     window.scrollTo({ top, behavior: reduceMotion ? "auto" : "smooth" });
-    setIsOpen(false);
   };
 
   return (
@@ -94,42 +73,22 @@ export default function Navigation({ items }: NavigationProps) {
       className="fixed inset-x-0 top-0 z-50 px-4 py-4 md:px-8"
     >
       <div
-        className={`mx-auto flex max-w-7xl items-center justify-between rounded-full border px-4 py-3 transition-all duration-500 md:px-5 ${
+        className={`mx-auto flex max-w-7xl items-center justify-center rounded-[1.75rem] border px-4 py-3 transition-all duration-500 md:justify-between md:px-5 ${
           isScrolled
-            ? "border-token bg-ivory/90 shadow-card backdrop-blur-xl"
-            : "border-transparent bg-ivory/45 backdrop-blur-md"
+            ? "border-[#d8c6b1] bg-[rgba(248,241,232,0.94)] shadow-[0_18px_44px_rgba(44,36,22,0.12)] backdrop-blur-xl"
+            : "border-[rgba(255,248,238,0.55)] bg-[rgba(250,245,239,0.78)] shadow-[0_14px_32px_rgba(44,36,22,0.08)] backdrop-blur-md"
         }`}
       >
         <button
           type="button"
           onClick={() => smoothScrollTo("#home")}
-          className="min-h-11 shrink-0 px-2 text-left font-display text-xl italic tracking-wide text-espresso md:text-2xl"
+          className="min-h-11 shrink-0 px-2 text-center text-espresso"
         >
-          Notre Beau Voyage
-        </button>
-
-        <button
-          type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-token bg-ivory/70 md:hidden"
-          aria-label="Toggle navigation"
-          onClick={() => setIsOpen((open) => !open)}
-        >
-          <span className="relative block h-4 w-5">
-            <span
-              className={`absolute left-0 top-0 h-px w-full bg-espresso transition-all ${
-                isOpen ? "translate-y-[7px] rotate-45" : ""
-              }`}
-            />
-            <span
-              className={`absolute left-0 top-[7px] h-px w-full bg-espresso transition-opacity ${
-                isOpen ? "opacity-0" : "opacity-100"
-              }`}
-            />
-            <span
-              className={`absolute left-0 top-[14px] h-px w-full bg-espresso transition-all ${
-                isOpen ? "-translate-y-[7px] -rotate-45" : ""
-              }`}
-            />
+          <span className="block font-display text-[1.15rem] italic leading-none tracking-wide md:text-[1.6rem]">
+            Notre Beau Voyage
+          </span>
+          <span className="mt-1 block font-body text-[0.62rem] font-medium uppercase tracking-[0.2em] text-espresso/58 md:text-[0.72rem]">
+            Our beautiful journey
           </span>
         </button>
 
@@ -140,7 +99,7 @@ export default function Navigation({ items }: NavigationProps) {
               type="button"
               onClick={() => smoothScrollTo(item.href)}
               className={`min-h-11 px-2 text-sm uppercase tracking-[0.24em] transition-colors duration-300 ${
-                item.href === activeHref ? "text-gold" : "text-espresso/70 hover:text-terracotta"
+                item.href === activeHref ? "text-terracotta" : "text-espresso/68 hover:text-terracotta"
               }`}
             >
               {item.label}
@@ -148,31 +107,6 @@ export default function Navigation({ items }: NavigationProps) {
           ))}
         </nav>
       </div>
-
-      <AnimatePresence>
-        {isOpen ? (
-          <motion.nav
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            variants={fadeUp}
-            className="mx-auto mt-3 flex max-w-7xl flex-col gap-2 rounded-[2rem] border border-token bg-ivory/95 p-4 shadow-card backdrop-blur-xl md:hidden"
-          >
-            {items.map((item) => (
-              <button
-                key={item.href}
-                type="button"
-                onClick={() => smoothScrollTo(item.href)}
-                className={`min-h-11 rounded-2xl px-4 py-3 text-left text-sm uppercase tracking-[0.3em] ${
-                  item.href === activeHref ? "text-gold" : "text-espresso/80"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </motion.nav>
-        ) : null}
-      </AnimatePresence>
     </motion.header>
   );
 }

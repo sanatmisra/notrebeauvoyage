@@ -1,18 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useMemo } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
 import ImageCard from "@/components/ImageCard";
-import {
-  getFadeUp,
-  getScaleUp,
-  getStaggerContainer,
-  viewport,
-} from "@/lib/animations";
+import { getFadeUp, getStaggerContainer, viewport } from "@/lib/animations";
 
 type Chapter = {
   day: string;
+  shortDay: string;
+  dayNumber: string;
   date: string;
   location: string;
   country: string;
@@ -21,6 +18,7 @@ type Chapter = {
   highlights: string[];
   imageSrc: string;
   imageAlt: string;
+  links?: { label: string; note?: string; copyValue?: string; href?: string }[];
   isSpecial?: boolean;
   specialLabel?: string;
 };
@@ -32,153 +30,184 @@ type TheJourneyProps = {
 const chapters: Chapter[] = [
   {
     day: "Day 01",
+    shortDay: "Fri",
+    dayNumber: "25",
     date: "25 April",
     location: "Bern",
     country: "Switzerland",
     tagline: "Where the journey begins",
     description:
-      "We leave our homes — Sanat from Munich, our friends from Frankfurt — and meet for the first time in Bern. The old city with its arcaded streets and the Aare river below is the perfect place to begin. A quick lunch, a walk, and then we point the cars south.",
-    highlights: [
-      "Meeting point for the whole group",
-      "Old City of Bern — UNESCO World Heritage",
-      "Lunch at the Zytglogge",
-    ],
+      "We meet in Bern city center for lunch before starting the drive south together.",
+    highlights: ["Bern city center lunch", "Parking nearby", "Restaurant details coming soon"],
     imageSrc: "/images/trip/bern.jpg",
-    imageAlt: "Bern old city arcades Switzerland",
+    imageAlt: "Bern old town and the Aare river in Switzerland",
+    links: [
+      {
+        label: "Parking",
+        note: "Kochergasse 1, 3011 Bern, Switzerland",
+        copyValue: "Kochergasse 1, 3011 Bern, Switzerland",
+        href: "https://maps.app.goo.gl/6uF9LTbXEYPFh6tq8",
+      },
+      {
+        label: "Restaurant",
+        note: "To be shared soon",
+      },
+    ],
   },
   {
-    day: "Day 01 · continued",
+    day: "Day 01 · Evening",
+    shortDay: "Fri",
+    dayNumber: "25",
     date: "25 April · Evening",
     location: "Annecy",
     country: "France",
     tagline: "The Venice of the Alps",
     description:
-      "We cross into France as the afternoon light turns gold and arrive in Annecy by evening. The old town, the canals, the lake — it is almost unreasonably beautiful. Our first night together, our first French dinner.",
-    highlights: [
-      "Overnight stop in Annecy",
-      "Canal-side dinner in the Vieille Ville",
-      "Lac d'Annecy at dusk",
-    ],
+      "By evening we reach Annecy for canals, lake light, and our first French dinner together.",
+    highlights: ["Overnight stop", "Canal-side dinner", "Lac d'Annecy at dusk"],
     imageSrc: "/images/trip/annecy.jpg",
-    imageAlt: "Annecy canal old town France",
+    imageAlt: "Annecy old town canal and lake in France",
+    links: [
+      {
+        label: "Stay",
+        note: "16, rue du Champ de la Taillee, 74600 Annecy, France",
+        href: "https://www.booking.com/Share-V4sOGr",
+      },
+    ],
   },
   {
     day: "Day 02",
+    shortDay: "Sat",
+    dayNumber: "26",
     date: "26 April",
     location: "Roquebrune-sur-Argens",
     country: "Provence, France",
-    tagline: "Our home for the week",
+    tagline: "The road to the villa",
     description:
-      "We drive south through Provence, the landscape shifting from alpine to Mediterranean. By afternoon we arrive at our villa — our base for the next five nights. The garden, the pool, the Provençal air. We are not in a hurry any more.",
-    highlights: [
-      "Villa arrival — our home for five nights",
-      "First evening around the table together",
-      "Roquebrune village exploration",
-    ],
+      "This day is spent on the road from Annecy to our villa in Roquebrune-sur-Argens, arriving in Provence by evening.",
+    highlights: ["Drive from Annecy", "Villa arrival", "Check-in and settle in"],
     imageSrc: "/images/trip/villa.jpeg",
-    imageAlt: "Our villa in Roquebrune-sur-Argens Provence",
+    imageAlt: "Villa in Roquebrune-sur-Argens, Provence",
+    links: [
+      {
+        label: "Villa details",
+        note: "Address and check-in details",
+        href: "https://www.airbnb.com/trips/shared/3db89ab8-14da-447e-b328-aaf30e58fd38?confCode=HMJKJ34CWQ&principal_token=006e4da2-556c-4a6f-9ae1-91e85bc3beb4&s=67&unique_share_id=6e361074-cbdd-4c7d-848e-974542e195fd",
+      },
+    ],
   },
   {
     day: "Day 03",
+    shortDay: "Sun",
+    dayNumber: "27",
     date: "27 April",
     location: "Nice & Monaco",
-    country: "Côte d'Azur",
+    country: "Cote d'Azur",
     tagline: "The glamour of the coast",
     description:
-      "Our first day trip to the Riviera. Nice in the morning — the Cours Saleya flower market, the old port, the Promenade des Anglais. Then east along the Grande Corniche to Monaco, because some experiences need to be had at least once.",
+      "A Riviera day of flower markets, seaside promenades, and the drive east to Monaco.",
     highlights: [
-      "Cours Saleya flower market, Nice",
+      "Cours Saleya market",
       "Promenade des Anglais",
-      "Monaco — the harbour, the casino square",
+      "Monaco harbour and casino square",
     ],
     imageSrc: "/images/trip/nice-monaco.jpg",
-    imageAlt: "Nice Promenade des Anglais and Monaco harbour",
+    imageAlt: "French Riviera coastline around Nice and Monaco",
   },
   {
     day: "Day 04",
+    shortDay: "Mon",
+    dayNumber: "28",
     date: "28 April",
     location: "Saint-Tropez",
-    country: "Côte d'Azur",
+    country: "Cote d'Azur",
     tagline: "The port, the market, the light",
     description:
-      "West along the coast to Saint-Tropez. The morning market at Place des Lices, the old port with its painted boats, Pampelonne Beach in the afternoon. This is what the Riviera has always been about — slow time in beautiful places.",
-    highlights: [
-      "Marché de la Place des Lices",
-      "Port Saint-Tropez",
-      "Plage de Pampelonne",
-    ],
+      "A westbound day for the market, painted boats, and an afternoon on the coast.",
+    highlights: ["Place des Lices market", "Port Saint-Tropez", "Pampelonne Beach"],
     imageSrc: "/images/trip/st-tropez.jpg",
-    imageAlt: "Saint-Tropez port and Place des Lices market",
+    imageAlt: "Saint-Tropez harbour on the French Riviera",
+  },
+  {
+    day: "Day 04 · Evening",
+    shortDay: "Mon",
+    dayNumber: "28",
+    date: "28 April · 7:00 PM",
+    location: "Indian Evening",
+    country: "Roquebrune-sur-Argens",
+    tagline: "A vibrant night back at the villa",
+    description:
+      "After the day trip, we come back together for an Indian evening at the villa starting at 7 PM.",
+    highlights: ["Starts at 7 PM", "Indian evening celebration", "Dress code shown here"],
+    imageSrc: "/images/dress-code-indian-evening.jpg",
+    imageAlt: "Indian evening dress code inspiration",
+    specialLabel: "Evening Event",
   },
   {
     day: "Day 05",
+    shortDay: "Tue",
+    dayNumber: "29",
     date: "29 April",
-    location: "Roquebrune-sur-Argens",
+    location: "The Main Event",
     country: "Provence, France",
     tagline: "Ten years. Again, yes.",
     description:
-      "We do not go anywhere today. Today, the villa is the whole world. A private ceremony in the garden, the people we love most gathered around us, champagne in the afternoon light. Ten years ago we said yes. Today, we mean it even more.",
+      "The villa becomes the whole world for the ceremony, champagne, and our gala evening.",
     highlights: [
-      "Private vow renewal ceremony",
-      "Champagne celebration in the garden",
-      "Gala dinner under the Provençal sky",
+      "Private vow renewal",
+      "Champagne celebration",
+      "Dinner under the Provençal sky",
     ],
-    imageSrc: "/images/trip/villa.jpeg",
-    imageAlt: "Vow renewal at the villa Roquebrune",
+    imageSrc: "/images/dress-code-main-event.png",
+    imageAlt: "Main event dress code inspiration",
     isSpecial: true,
-    specialLabel: "Our Anniversary  ◆",
+    specialLabel: "Our Anniversary",
   },
   {
     day: "Day 06",
+    shortDay: "Wed",
+    dayNumber: "30",
     date: "30 April",
     location: "The Villa",
     country: "Provence, France",
     tagline: "Nowhere to be",
     description:
-      "After the celebration, a day of pure rest. The pool, a long lazy lunch, an afternoon nap, an evening walk through the village. This is what we came for — time that moves slowly and belongs entirely to us.",
-    highlights: [
-      "Rest and relaxation at the villa",
-      "Roquebrune village walk",
-      "Last evening together as a group",
-    ],
+      "A quiet recovery day of pool time, a long lunch, and one last slow evening together.",
+    highlights: ["Pool and rest", "Long lunch", "Last group evening"],
     imageSrc: "/images/trip/villa.jpeg",
-    imageAlt: "Relaxing at the villa in Provence",
+    imageAlt: "Roquebrune-sur-Argens villa in Provence",
   },
   {
     day: "Day 07",
+    shortDay: "Thu",
+    dayNumber: "1",
     date: "1 May",
     location: "Lausanne",
     country: "Switzerland",
     tagline: "The road north begins",
     description:
-      "We check out of the villa and begin the journey home — but not in a rush. We drive north through the Alps and stop for the night in Lausanne, above Lac Léman. One last dinner together, the lake below us, the mountains ahead.",
-    highlights: [
-      "Departure from Roquebrune villa",
-      "Lausanne — overnight stop",
-      "Dinner above Lac Léman",
-    ],
+      "We drive north through the Alps and stop above Lac Leman for one last overnight together.",
+    highlights: ["Departure from Provence", "Lake-side overnight stop", "Final dinner together"],
     imageSrc: "/images/trip/lausanne.jpg",
-    imageAlt: "Lausanne above Lake Geneva Switzerland",
+    imageAlt: "Lausanne above Lake Geneva in Switzerland",
   },
   {
     day: "Day 08",
+    shortDay: "Fri",
+    dayNumber: "2",
     date: "2 May",
     location: "Bern",
     country: "Switzerland",
     tagline: "Until next time",
     description:
-      "We drive from Lausanne to Bern for one last stop — a coffee, an embrace, and then we part ways. Sanat heads south-east to Munich. Our friends head north to Frankfurt. The cars drive away in different directions, full of the same memories.",
-    highlights: [
-      "Final group stop in Bern",
-      "Farewell coffee at the Zytglogge",
-      "The drive home — full of good memories",
-    ],
+      "One final stop for coffee and hugs in Bern before the cars part in different directions.",
+    highlights: ["Farewell coffee", "Final group stop", "Drive home with full hearts"],
     imageSrc: "/images/trip/bern-farewell.jpg",
-    imageAlt: "Bern Switzerland farewell stop",
+    imageAlt: "Bern old town farewell stop in Switzerland",
   },
 ];
 
-function ChapterPanel({
+function JourneyCard({
   chapter,
   index,
 }: {
@@ -186,254 +215,204 @@ function ChapterPanel({
   index: number;
 }) {
   const reduceMotion = !!useReducedMotion();
-  const panelRef = useRef<HTMLElement | null>(null);
-  const isInView = useInView(panelRef, { margin: "-20% 0px -20% 0px" });
   const fadeUp = useMemo(() => getFadeUp(reduceMotion), [reduceMotion]);
-  const stagger = useMemo(() => getStaggerContainer(reduceMotion), [reduceMotion]);
-  const scaleUp = useMemo(() => getScaleUp(reduceMotion), [reduceMotion]);
-  const [showHint, setShowHint] = useState(index === 0);
-  const isEven = index % 2 === 1;
 
-  useEffect(() => {
-    if (index !== 0) {
-      return;
+  const handleCopy = async (value: string) => {
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      // Keep the UI stable if clipboard access is blocked.
     }
-
-    const timeout = window.setTimeout(() => setShowHint(false), 3000);
-    return () => window.clearTimeout(timeout);
-  }, [index]);
+  };
 
   return (
-    <section
-      ref={panelRef}
-      className="relative min-h-auto md:min-h-[100dvh]"
+    <motion.article
+      variants={fadeUp}
+      className={`relative grid gap-5 overflow-hidden rounded-[2rem] border border-espresso/10 bg-white/85 p-4 shadow-[0_20px_60px_rgba(44,36,22,0.08)] backdrop-blur md:grid-cols-[88px_minmax(0,260px)_1fr] md:gap-6 md:p-5 ${
+        chapter.isSpecial
+          ? "border-terracotta/25 bg-[linear-gradient(135deg,rgba(201,135,106,0.17),rgba(212,168,83,0.14),rgba(255,255,255,0.92))] ring-1 ring-terracotta/30 shadow-[0_28px_80px_rgba(201,135,106,0.18)]"
+          : ""
+      }`}
     >
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
-        variants={stagger}
-        className={`grid min-h-[100dvh] md:grid-cols-5 ${isEven ? "md:[&>*:first-child]:order-2 md:[&>*:last-child]:order-1" : ""}`}
-      >
-        <div className="relative md:col-span-3">
-          <div className="absolute right-4 top-4 z-10 font-body text-[0.65rem] font-light uppercase tracking-[0.22em] text-gold md:hidden">
-            {`${String(index + 1).padStart(2, "0")} / ${String(chapters.length).padStart(2, "0")}`}
-          </div>
-
-          <motion.div
-            variants={scaleUp}
-            initial={{ opacity: 0, scale: reduceMotion ? 1 : 1.04 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={viewport}
-            transition={{ duration: 6, ease: "easeOut" }}
-            className="relative h-full min-h-[42vh] md:min-h-[100dvh]"
-          >
-            <ImageCard
-              src={chapter.imageSrc}
-              alt={chapter.imageAlt}
-              width={1600}
-              height={1200}
-              sizes="(max-width: 767px) 100vw, 60vw"
-              className="relative h-full"
-              imageClassName="h-full min-h-[42vh] w-full object-cover md:min-h-[100dvh]"
-            />
-            <div
-              className={`absolute inset-0 ${
-                isEven
-                  ? "bg-gradient-to-b from-transparent via-transparent to-espresso md:bg-gradient-to-l md:from-transparent md:via-transparent md:to-espresso"
-                  : "bg-gradient-to-b from-transparent via-transparent to-espresso md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-espresso"
-              }`}
-            />
-          </motion.div>
-        </div>
-
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          className={`relative flex flex-col justify-center bg-espresso px-5 py-10 md:col-span-2 md:px-16 md:py-20 ${
+      <div className="hidden md:flex md:flex-col md:items-center">
+        <div
+          className={`flex h-[88px] w-[88px] flex-col items-center justify-center rounded-[1.6rem] text-center shadow-inner ${
             chapter.isSpecial
-              ? "before:absolute before:inset-6 before:border before:border-gold/40 before:content-['']"
-              : ""
+              ? "bg-terracotta text-white"
+              : "bg-linen"
           }`}
-          data-cursor-target
         >
-          {chapter.isSpecial ? (
-            <>
-              {Array.from({ length: 6 }).map((_, dotIndex) => (
-                <motion.span
-                  key={dotIndex}
-                  aria-hidden="true"
-                  className="absolute h-1 w-1 rounded-full bg-gold/30"
-                  style={{
-                    top: `${16 + dotIndex * 11}%`,
-                    left: `${12 + (dotIndex % 3) * 22}%`,
-                  }}
-                  animate={reduceMotion ? undefined : { y: [-10, 10, -10] }}
-                  transition={
-                    reduceMotion
-                      ? undefined
-                      : {
-                          duration: 4 + dotIndex * 0.2,
-                          repeat: Number.POSITIVE_INFINITY,
-                          ease: "easeInOut",
-                          delay: dotIndex * 0.15,
-                        }
-                  }
-                />
-              ))}
-            </>
-          ) : null}
-
-          <motion.p
-            variants={fadeUp}
-            className="relative z-10 font-body text-[0.65rem] font-light uppercase tracking-[0.25em] text-gold"
-          >
-            {chapter.day}
-          </motion.p>
-          <motion.p
-            variants={fadeUp}
-            className="relative z-10 mt-3 font-body text-[0.72rem] font-light uppercase tracking-[0.2em] text-linen/40"
-          >
-            {chapter.date}
-          </motion.p>
-          {chapter.specialLabel ? (
-            <motion.p
-              variants={fadeUp}
-              className="relative z-10 mt-5 font-display text-base italic tracking-[0.15em] text-gold"
-            >
-              {chapter.specialLabel}
-            </motion.p>
-          ) : null}
-          <motion.h3
-            variants={fadeUp}
-            className="relative z-10 mt-4 font-display text-[clamp(2rem,8vw,2.8rem)] font-light leading-none text-linen md:text-[clamp(2.2rem,4vw,3.5rem)]"
-          >
-            {chapter.location}
-          </motion.h3>
-          <motion.p
-            variants={fadeUp}
-            className="relative z-10 mt-3 font-body text-[0.72rem] font-light uppercase tracking-[0.18em] text-terracotta"
-          >
-            {chapter.country}
-          </motion.p>
-          <motion.p
-            variants={fadeUp}
-            className="relative z-10 mt-4 font-display text-[1.1rem] italic text-gold"
-          >
-            {chapter.tagline}
-          </motion.p>
-          <motion.div variants={fadeUp} className="relative z-10 my-5 h-px w-8 bg-gold" />
-          <motion.p
-            variants={fadeUp}
-            className={`relative z-10 text-[0.88rem] font-light leading-[1.9] ${
-              chapter.isSpecial ? "text-linen/85" : "text-linen/65"
+          <span
+            className={`font-body text-[0.68rem] uppercase tracking-[0.22em] ${
+              chapter.isSpecial ? "text-white/75" : "text-espresso/50"
             }`}
           >
-            {chapter.description}
-          </motion.p>
-          <motion.ul variants={stagger} className="relative z-10 mt-6 space-y-3">
-            {chapter.highlights.map((highlight) => (
-              <motion.li
-                key={highlight}
-                variants={fadeUp}
-                className="flex items-start gap-3 text-[0.78rem] font-light leading-6 text-linen/50"
-              >
-                <span className="mt-0.5 text-gold">—</span>
-                <span>{highlight}</span>
-              </motion.li>
-            ))}
-          </motion.ul>
-
-          {index === 0 ? (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showHint ? 1 : 0 }}
-              transition={{ duration: 0.6 }}
-              className="mt-8 font-body text-[0.72rem] font-light uppercase tracking-[0.18em] text-linen/35 md:hidden"
-            >
-              Swipe or scroll to continue
-            </motion.p>
-          ) : null}
-        </motion.div>
-      </motion.div>
-
-      <div className="pointer-events-none absolute left-[5%] top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
-        <motion.span
-          className="relative block h-2.5 w-2.5 rounded-full bg-gold"
-          animate={isInView && !reduceMotion ? { scale: [1, 1.12, 1] } : undefined}
-          transition={{ duration: 1.8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-        >
-          <motion.span
-            className="absolute inset-[-8px] rounded-full border border-gold/35"
-            animate={isInView && !reduceMotion ? { scale: [0.9, 1.5, 0.9], opacity: [0.45, 0.1, 0.45] } : undefined}
-            transition={{ duration: 2.2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-          />
-        </motion.span>
+            {chapter.shortDay}
+          </span>
+          <span
+            className={`mt-1 font-display text-[2rem] leading-none ${
+              chapter.isSpecial ? "text-white" : "text-espresso"
+            }`}
+          >
+            {chapter.dayNumber}
+          </span>
+        </div>
+        {index < chapters.length - 1 ? (
+          <div className="mt-3 h-full w-px bg-gradient-to-b from-terracotta/30 to-transparent" />
+        ) : null}
       </div>
-    </section>
+
+      <div className="relative overflow-hidden rounded-[1.5rem]">
+        <div
+          className={`absolute left-3 top-3 z-10 inline-flex items-center rounded-full px-3 py-1 text-[0.65rem] font-medium uppercase tracking-[0.18em] shadow-sm ${
+            chapter.isSpecial
+              ? "bg-terracotta text-white"
+              : "bg-white/90 text-espresso"
+          }`}
+        >
+          {chapter.day}
+        </div>
+        <ImageCard
+          src={chapter.imageSrc}
+          alt={chapter.imageAlt}
+          width={1600}
+          height={1200}
+          sizes="(max-width: 767px) 100vw, 260px"
+          className="relative aspect-[4/3] h-full min-h-[220px] w-full"
+          imageClassName="h-full w-full object-cover"
+        />
+      </div>
+
+      <div className="flex min-w-0 flex-col justify-between">
+        <div>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+            <p className="font-body text-[0.72rem] uppercase tracking-[0.22em] text-terracotta">
+              {chapter.date}
+            </p>
+            <span className="hidden h-1 w-1 rounded-full bg-espresso/20 md:block" />
+            <p className="text-sm text-espresso/55">{chapter.country}</p>
+            {chapter.specialLabel ? (
+              <span className="rounded-full bg-terracotta px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.16em] text-white">
+                {chapter.specialLabel}
+              </span>
+            ) : null}
+          </div>
+
+          <h3 className="mt-3 font-display text-[1.9rem] leading-none text-espresso md:text-[2.25rem]">
+            {chapter.location}
+          </h3>
+          <p className="mt-3 font-display text-lg italic text-terracotta">
+            {chapter.tagline}
+          </p>
+          <p className="mt-4 max-w-2xl text-[0.95rem] leading-7 text-espresso/72">
+            {chapter.description}
+          </p>
+          {chapter.links?.length ? (
+            <div className="mt-5 flex flex-wrap gap-3">
+              {chapter.links.map((link) =>
+                link.copyValue ? (
+                  <a
+                    key={link.label}
+                    onClick={() => handleCopy(link.copyValue!)}
+                    href={link.href}
+                    target={link.href ? "_blank" : undefined}
+                    rel={link.href ? "noreferrer" : undefined}
+                    className="inline-flex items-center rounded-full border border-terracotta/25 bg-terracotta/8 px-4 py-2 text-sm font-medium text-terracotta transition-colors hover:bg-terracotta hover:text-white"
+                  >
+                    {link.label}
+                    {link.note ? ` · ${link.note}` : ""}
+                  </a>
+                ) : link.href ? (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center rounded-full border border-terracotta/25 bg-terracotta/8 px-4 py-2 text-sm font-medium text-terracotta transition-colors hover:bg-terracotta hover:text-white"
+                  >
+                    {link.label}
+                    {link.note ? ` · ${link.note}` : ""}
+                  </a>
+                ) : (
+                  <span
+                    key={link.label}
+                    className="inline-flex items-center rounded-full border border-espresso/10 bg-linen/75 px-4 py-2 text-sm text-espresso/60"
+                  >
+                    {link.label}
+                    {link.note ? ` · ${link.note}` : ""}
+                  </span>
+                ),
+              )}
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </motion.article>
   );
 }
 
 export default function TheJourney({}: TheJourneyProps) {
   const reduceMotion = !!useReducedMotion();
   const fadeUp = useMemo(() => getFadeUp(reduceMotion), [reduceMotion]);
+  const stagger = useMemo(() => getStaggerContainer(reduceMotion), [reduceMotion]);
 
   return (
-    <section id="the-journey" className="relative bg-espresso py-24 md:py-32">
-      <div className="pointer-events-none absolute bottom-0 left-[5%] top-0 hidden w-[2px] -translate-x-1/2 bg-gold/35 md:block" />
-
-      <div className="section-shell mb-16 text-center md:mb-20">
-        <motion.p
+    <section
+      id="the-journey"
+      className="relative overflow-hidden bg-[radial-gradient(circle_at_top,rgba(212,168,83,0.18),transparent_24%),linear-gradient(180deg,#f7f0e6_0%,#f4ecdf_52%,#efe4d5_100%)] py-24 md:py-32"
+    >
+      <div className="section-shell">
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
           variants={fadeUp}
-          className="font-body text-[0.7rem] font-light uppercase tracking-[0.25em] text-gold"
+          className="mx-auto max-w-3xl text-center"
         >
-          25 April – 2 May 2025
-        </motion.p>
-        <motion.h2
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={fadeUp}
-          className="mt-5 font-display text-[clamp(3rem,6vw,5rem)] font-light text-linen"
-        >
-          The Journey
-        </motion.h2>
-        <motion.p
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={fadeUp}
-          className="mx-auto mt-5 max-w-5xl font-body text-[0.78rem] font-light tracking-[0.12em] text-linen/40"
-        >
-          Munich &amp; Frankfurt &nbsp; → &nbsp; Bern &nbsp; → &nbsp; Annecy
-          &nbsp; → &nbsp; Provence &nbsp; → &nbsp; Riviera &nbsp; → &nbsp;
-          Lausanne &nbsp; → &nbsp; Bern
-        </motion.p>
-      </div>
-
-      <div>
-        {chapters.map((chapter, index) => (
-          <div key={`${chapter.day}-${chapter.location}`}>
-            <ChapterPanel chapter={chapter} index={index} />
-            {index < chapters.length - 1 ? (
-              <div className="flex justify-center bg-espresso py-5 text-[0.6rem] tracking-[0.5em] text-gold/30">
-                · · · · ·
-              </div>
-            ) : null}
+          <p className="section-label justify-center">Trip Flow</p>
+          <h2 className="section-title text-espresso">The Journey</h2>
+          <p className="mx-auto mt-5 max-w-2xl text-[1rem] leading-7 text-espresso/70">
+            A tighter itinerary view for every stop, from the first meetup in Bern
+            to the final farewell on the way home.
+          </p>
+          <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-3 rounded-full border border-espresso/10 bg-white/70 px-5 py-3 text-[0.72rem] uppercase tracking-[0.18em] text-espresso/60 shadow-[0_12px_30px_rgba(44,36,22,0.06)]">
+            <span>25 Apr</span>
+            <span>Bern</span>
+            <span>Annecy</span>
+            <span>Provence</span>
+            <span>Riviera</span>
+            <span>Lausanne</span>
+            <span>2 May</span>
           </div>
-        ))}
-      </div>
+        </motion.div>
 
-      <div className="section-shell px-8 py-20 text-center">
-        <p className="font-display text-[1.4rem] font-light italic text-linen/50">
-          And so the journey ends — until the next one.
-        </p>
-        <p className="mt-4 text-gold">◆</p>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          variants={stagger}
+          className="mt-14 grid gap-6 md:mt-16"
+        >
+          {chapters.map((chapter, index) => (
+            <JourneyCard
+              key={`${chapter.day}-${chapter.location}-${chapter.date}`}
+              chapter={chapter}
+              index={index}
+            />
+          ))}
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          variants={fadeUp}
+          className="mt-16 text-center"
+        >
+          <p className="font-display text-[1.35rem] italic text-espresso/56">
+            And so the journey ends, until the next one.
+          </p>
+        </motion.div>
       </div>
     </section>
   );

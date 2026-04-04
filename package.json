@@ -6,11 +6,11 @@
     "node": "22.x"
   },
   "scripts": {
-    "dev": "zsh -lc 'unset npm_config_prefix && source ~/.nvm/nvm.sh && nvm use 22 >/dev/null && node scripts/dev.mjs'",
-    "build": "zsh -lc 'unset npm_config_prefix && source ~/.nvm/nvm.sh && nvm use 22 >/dev/null && next build'",
-    "start": "zsh -lc 'unset npm_config_prefix && source ~/.nvm/nvm.sh && nvm use 22 >/dev/null && next start'",
-    "lint": "zsh -lc 'unset npm_config_prefix && source ~/.nvm/nvm.sh && nvm use 22 >/dev/null && next lint'",
-    "fetch-images": "zsh -lc 'unset npm_config_prefix && source ~/.nvm/nvm.sh && nvm use 22 >/dev/null && node scripts/fetch-trip-images.mjs'"
+    "dev": "node scripts/dev.mjs",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "fetch-images": "node scripts/fetch-trip-images.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.11.17",

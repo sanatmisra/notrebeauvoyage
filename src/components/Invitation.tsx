@@ -31,20 +31,19 @@ export default function Invitation() {
           data-cursor-target
         >
           <p className="font-display text-3xl font-light italic leading-tight text-terracotta md:text-4xl">
-            Join us for a week shaped by blue water, old harbors, and the joy of
-            celebrating how far love can travel.
+            After ten years of marriage, we want to celebrate our story by remembering
+            the journey so far and beginning a new chapter with you beside us.
           </p>
           <div className="mt-8 space-y-6 text-base leading-8 text-espresso/80 md:text-lg">
             <p>
-              After ten beautiful years together in Munich, we are returning to the kind
-              of coastline that invites reflection, delight, and a little romance. From
-              St. Tropez to Nice, each stop has been chosen as part of a quiet vow renewal
-              journey that feels intimate, sun-washed, and full of gratitude.
+              After ten years of being married to each other, we want to relive and
+              remember the memories that have shaped us, together with the people who
+              have been closest to our hearts through it all.
             </p>
             <p>
-              This is not a formal wedding weekend. It is a celebration in motion: a table
-              set late, a view worth pausing for, and a sequence of days we would love to
-              share with the people who know our story best.
+              In your presence, we will symbolically renew our vows to one another and
+              mark the beginning of the next decade of love, friendship, and shared
+              memories.
             </p>
           </div>
         </motion.div>
