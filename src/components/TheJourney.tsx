@@ -365,7 +365,13 @@ function JourneyCard({
             {chapter.description}
           </p>
           {chapter.links?.length ? (
-            <div className="mt-5 flex flex-wrap gap-3">
+            <div className="mt-5">
+              <p className="mb-3 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-espresso/48">
+                {chapter.location === "The Main Event"
+                  ? "Dress code for our main event"
+                  : "Click below for details"}
+              </p>
+              <div className="flex flex-wrap gap-3">
               {chapter.links.map((link) =>
                 link.copyValue ? (
                   <a
@@ -374,7 +380,7 @@ function JourneyCard({
                     href={link.href}
                     target={link.href ? "_blank" : undefined}
                     rel={link.href ? "noreferrer" : undefined}
-                    className="inline-flex items-center rounded-full border border-terracotta/25 bg-terracotta/8 px-4 py-2 text-sm font-medium text-terracotta transition-colors hover:bg-terracotta hover:text-white"
+                    className="inline-flex items-center rounded-[1rem] border border-terracotta/22 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,228,213,0.92))] px-4 py-2.5 text-sm font-medium text-terracotta shadow-[0_1px_0_rgba(255,255,255,0.9)_inset,0_8px_18px_rgba(44,36,22,0.08),0_2px_0_rgba(201,135,106,0.16)] transition-all hover:-translate-y-[1px] hover:border-terracotta/35 hover:bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(244,236,223,0.96))] hover:shadow-[0_1px_0_rgba(255,255,255,0.95)_inset,0_12px_24px_rgba(44,36,22,0.1),0_3px_0_rgba(201,135,106,0.2)]"
                   >
                     {link.label}
                     {link.note ? ` · ${link.note}` : ""}
@@ -385,7 +391,7 @@ function JourneyCard({
                     href={link.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center rounded-full border border-terracotta/25 bg-terracotta/8 px-4 py-2 text-sm font-medium text-terracotta transition-colors hover:bg-terracotta hover:text-white"
+                    className="inline-flex items-center rounded-[1rem] border border-terracotta/22 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,228,213,0.92))] px-4 py-2.5 text-sm font-medium text-terracotta shadow-[0_1px_0_rgba(255,255,255,0.9)_inset,0_8px_18px_rgba(44,36,22,0.08),0_2px_0_rgba(201,135,106,0.16)] transition-all hover:-translate-y-[1px] hover:border-terracotta/35 hover:bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(244,236,223,0.96))] hover:shadow-[0_1px_0_rgba(255,255,255,0.95)_inset,0_12px_24px_rgba(44,36,22,0.1),0_3px_0_rgba(201,135,106,0.2)]"
                   >
                     {link.label}
                     {link.note ? ` · ${link.note}` : ""}
@@ -393,13 +399,14 @@ function JourneyCard({
                 ) : (
                   <span
                     key={link.label}
-                    className="inline-flex items-center rounded-full border border-espresso/10 bg-linen/75 px-4 py-2 text-sm text-espresso/60"
+                    className="inline-flex items-center rounded-[1rem] border border-espresso/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(239,228,213,0.72))] px-4 py-2.5 text-sm text-espresso/60 shadow-[0_1px_0_rgba(255,255,255,0.88)_inset,0_8px_18px_rgba(44,36,22,0.05)]"
                   >
                     {link.label}
                     {link.note ? ` · ${link.note}` : ""}
                   </span>
                 ),
               )}
+              </div>
             </div>
           ) : null}
         </div>

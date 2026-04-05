@@ -60,39 +60,37 @@ function FloralDecoration({
       className={className}
     >
       <path
-        d="M88 166 C 164 90, 248 34, 400 22 C 552 34, 636 90, 712 166"
+        d="M116 154 L116 66 Q116 34 148 34 L286 34"
         fill="none"
         stroke="rgba(212,168,83,0.6)"
         strokeWidth="1"
       />
       <path
-        d="M122 166 C 112 186, 114 198, 126 208"
+        d="M684 154 L684 66 Q684 34 652 34 L514 34"
         fill="none"
-        stroke="rgba(139,158,138,0.5)"
+        stroke="rgba(212,168,83,0.6)"
         strokeWidth="1"
       />
       <path
-        d="M678 166 C 688 186, 686 198, 674 208"
+        d="M310 34 L400 34 L490 34"
         fill="none"
-        stroke="rgba(139,158,138,0.5)"
+        stroke="rgba(212,168,83,0.45)"
         strokeWidth="1"
       />
 
       {[
-        { x: 138, y: 134, r: -36, w: 10, h: 22 },
-        { x: 166, y: 116, r: -28, w: 11, h: 24 },
-        { x: 198, y: 98, r: -21, w: 9, h: 21 },
-        { x: 236, y: 79, r: -18, w: 10, h: 24 },
-        { x: 278, y: 61, r: -12, w: 11, h: 26 },
-        { x: 330, y: 42, r: -8, w: 12, h: 28 },
-        { x: 374, y: 29, r: -4, w: 10, h: 22 },
-        { x: 426, y: 29, r: 4, w: 10, h: 22 },
-        { x: 470, y: 42, r: 8, w: 12, h: 28 },
-        { x: 522, y: 61, r: 12, w: 11, h: 26 },
-        { x: 564, y: 79, r: 18, w: 10, h: 24 },
-        { x: 602, y: 98, r: 21, w: 9, h: 21 },
-        { x: 634, y: 116, r: 28, w: 11, h: 24 },
-        { x: 662, y: 134, r: 36, w: 10, h: 22 },
+        { x: 126, y: 132, r: -28, w: 10, h: 22 },
+        { x: 132, y: 96, r: -8, w: 11, h: 24 },
+        { x: 154, y: 50, r: -34, w: 10, h: 22 },
+        { x: 198, y: 34, r: -82, w: 10, h: 22 },
+        { x: 248, y: 34, r: -90, w: 11, h: 24 },
+        { x: 330, y: 34, r: -94, w: 10, h: 22 },
+        { x: 470, y: 34, r: 94, w: 10, h: 22 },
+        { x: 552, y: 34, r: 90, w: 11, h: 24 },
+        { x: 602, y: 34, r: 82, w: 10, h: 22 },
+        { x: 646, y: 50, r: 34, w: 10, h: 22 },
+        { x: 668, y: 96, r: 8, w: 11, h: 24 },
+        { x: 674, y: 132, r: 28, w: 10, h: 22 },
       ].map((leaf, index) => (
         <ellipse
           key={`leaf-${index}`}
@@ -106,16 +104,15 @@ function FloralDecoration({
       ))}
 
       {[
-        { x: 152, y: 150, size: 14 },
-        { x: 226, y: 86, size: 13 },
-        { x: 310, y: 50, size: 14 },
-        { x: 358, y: 31, size: 12 },
-        { x: 442, y: 31, size: 12 },
-        { x: 490, y: 50, size: 14 },
-        { x: 574, y: 86, size: 13 },
-        { x: 648, y: 150, size: 14 },
+        { x: 140, y: 142, size: 14 },
+        { x: 170, y: 42, size: 13 },
+        { x: 288, y: 34, size: 13 },
+        { x: 400, y: 34, size: 12 },
+        { x: 512, y: 34, size: 13 },
+        { x: 630, y: 42, size: 13 },
+        { x: 660, y: 142, size: 14 },
       ]
-        .slice(0, compact ? 4 : 8)
+        .slice(0, compact ? 4 : 7)
         .map((flower, index) => (
           <g key={`small-flower-${index}`} transform={`translate(${flower.x} ${flower.y})`}>
             {[0, 72, 144, 216, 288].map((angle) => (
@@ -134,9 +131,9 @@ function FloralDecoration({
         ))}
 
       {[
-        { x: 110, y: 162, size: 24 },
-        { x: 400, y: 18, size: 28 },
-        { x: 690, y: 162, size: 24 },
+        { x: 116, y: 154, size: 24 },
+        { x: 400, y: 34, size: 26 },
+        { x: 684, y: 154, size: 24 },
       ]
         .slice(0, compact ? 2 : 3)
         .map((flower, index) => (
@@ -157,12 +154,12 @@ function FloralDecoration({
         ))}
 
       {[
-        [182, 108],
-        [256, 72],
-        [342, 40],
-        [458, 40],
-        [544, 72],
-        [618, 108],
+        [132, 118],
+        [210, 34],
+        [350, 34],
+        [450, 34],
+        [590, 34],
+        [668, 118],
       ]
         .slice(0, compact ? 3 : 6)
         .map(([x, y], index) => (
@@ -178,32 +175,32 @@ function FloralDecoration({
       {!compact && (
         <>
           <ellipse
-            cx="120"
-            cy="183"
+            cx="118"
+            cy="170"
             rx="4"
             ry="10"
             transform="rotate(-24 120 183)"
             fill="rgba(139,158,138,0.6)"
           />
           <ellipse
-            cx="131"
-            cy="198"
+            cx="128"
+            cy="188"
             rx="4"
             ry="9"
             transform="rotate(18 131 198)"
             fill="rgba(139,158,138,0.6)"
           />
           <ellipse
-            cx="680"
-            cy="183"
+            cx="682"
+            cy="170"
             rx="4"
             ry="10"
             transform="rotate(24 680 183)"
             fill="rgba(139,158,138,0.6)"
           />
           <ellipse
-            cx="669"
-            cy="198"
+            cx="672"
+            cy="188"
             rx="4"
             ry="9"
             transform="rotate(-18 669 198)"
@@ -273,10 +270,10 @@ export default function Hero() {
             transition={
               reduceMotion ? undefined : { duration: 1, ease: "easeOut", delay: 0.3 }
             }
-            className="relative mx-auto w-[clamp(340px,85vw,820px)] overflow-visible rounded-[4px] border border-[rgba(212,168,83,0.35)] bg-[rgba(44,36,22,0.65)] px-7 pb-14 pt-16 text-center text-ivory shadow-[0_32px_90px_rgba(12,8,4,0.48)] backdrop-blur-[8px] sm:px-10 md:px-14 md:pb-14 md:pt-16"
+            className="relative mx-auto w-[clamp(340px,85vw,820px)] overflow-visible rounded-[4px] border border-[rgba(212,168,83,0.35)] bg-[rgba(44,36,22,0.65)] px-7 pb-14 pt-24 text-center text-ivory shadow-[0_32px_90px_rgba(12,8,4,0.48)] backdrop-blur-[8px] sm:px-10 sm:pt-24 md:px-14 md:pb-14 md:pt-28"
           >
-            <FloralDecoration className="pointer-events-none absolute left-1/2 top-0 z-[11] h-[180px] w-full -translate-x-1/2 overflow-visible max-md:scale-[0.85]" />
-            <FloralDecoration className="pointer-events-none absolute bottom-0 left-1/2 hidden h-[80px] w-[70%] -translate-x-1/2 rotate-180 overflow-visible md:block" compact />
+            <FloralDecoration className="pointer-events-none absolute left-1/2 top-[-38px] z-[11] h-[180px] w-full -translate-x-1/2 overflow-visible max-md:top-[-28px] max-md:scale-[0.82]" />
+            <FloralDecoration className="pointer-events-none absolute bottom-0 left-1/2 hidden h-[92px] w-[78%] -translate-x-1/2 rotate-180 overflow-visible md:block" compact />
 
             <div className="pointer-events-none absolute inset-[14px] border border-[rgba(212,168,83,0.2)]" />
             <CornerFlourish className="pointer-events-none absolute left-[12px] top-[12px] hidden h-5 w-5 md:block" />
