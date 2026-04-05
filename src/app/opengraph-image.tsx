@@ -38,20 +38,26 @@ function FloralStrip({ flipped = false }: { flipped?: boolean }) {
       }}
     >
       <path
-        d="M120 76 C 260 14, 420 10, 600 28 C 780 10, 940 14, 1080 76"
+        d="M132 78 L132 30 L318 30"
+        fill="none"
+        stroke="rgba(212,168,83,0.28)"
+        strokeWidth="1"
+      />
+      <path
+        d="M1068 78 L1068 30 L882 30"
         fill="none"
         stroke="rgba(212,168,83,0.28)"
         strokeWidth="1"
       />
       {[
-        { x: 186, y: 58, w: 10, h: 22, r: -34 },
-        { x: 258, y: 42, w: 11, h: 24, r: -20 },
-        { x: 340, y: 32, w: 9, h: 20, r: -12 },
-        { x: 460, y: 24, w: 10, h: 24, r: -4 },
-        { x: 740, y: 24, w: 10, h: 24, r: 4 },
-        { x: 860, y: 32, w: 9, h: 20, r: 12 },
-        { x: 942, y: 42, w: 11, h: 24, r: 20 },
-        { x: 1014, y: 58, w: 10, h: 22, r: 34 },
+        { x: 146, y: 62, w: 10, h: 22, r: -30 },
+        { x: 164, y: 28, w: 10, h: 20, r: -88 },
+        { x: 236, y: 30, w: 11, h: 22, r: -90 },
+        { x: 320, y: 30, w: 9, h: 20, r: -92 },
+        { x: 880, y: 30, w: 9, h: 20, r: 92 },
+        { x: 964, y: 30, w: 11, h: 22, r: 90 },
+        { x: 1036, y: 28, w: 10, h: 20, r: 88 },
+        { x: 1054, y: 62, w: 10, h: 22, r: 30 },
       ].map((leaf, index) => (
         <ellipse
           key={`leaf-${index}`}
@@ -64,11 +70,13 @@ function FloralStrip({ flipped = false }: { flipped?: boolean }) {
         />
       ))}
       {[
-        { x: 300, y: 36, size: 16, petals: "rgba(245,239,230,0.38)" },
-        { x: 516, y: 20, size: 22, petals: "rgba(201,135,106,0.42)" },
-        { x: 600, y: 18, size: 18, petals: "rgba(245,239,230,0.42)" },
-        { x: 684, y: 20, size: 22, petals: "rgba(201,135,106,0.42)" },
-        { x: 900, y: 36, size: 16, petals: "rgba(245,239,230,0.38)" },
+        { x: 150, y: 74, size: 16, petals: "rgba(245,239,230,0.38)" },
+        { x: 356, y: 30, size: 16, petals: "rgba(245,239,230,0.38)" },
+        { x: 520, y: 24, size: 22, petals: "rgba(201,135,106,0.42)" },
+        { x: 600, y: 22, size: 18, petals: "rgba(245,239,230,0.42)" },
+        { x: 680, y: 24, size: 22, petals: "rgba(201,135,106,0.42)" },
+        { x: 844, y: 30, size: 16, petals: "rgba(245,239,230,0.38)" },
+        { x: 1050, y: 74, size: 16, petals: "rgba(245,239,230,0.38)" },
       ].map((flower, index) => (
         <g key={`flower-${index}`} transform={`translate(${flower.x} ${flower.y})`}>
           {[0, 72, 144, 216, 288].map((angle) => (
@@ -86,10 +94,10 @@ function FloralStrip({ flipped = false }: { flipped?: boolean }) {
         </g>
       ))}
       {[
-        [370, 26],
-        [440, 22],
-        [760, 22],
-        [830, 26],
+        [194, 30],
+        [430, 28],
+        [770, 28],
+        [1006, 30],
       ].map(([x, y], index) => (
         <circle key={`berry-${index}`} cx={x} cy={y} r={3} fill="rgba(212,168,83,0.34)" />
       ))}
@@ -220,17 +228,17 @@ export default async function Image() {
                 letterSpacing: 5,
                 color: "rgba(212,168,83,0.85)",
                 textTransform: "uppercase",
-                marginBottom: "28px",
+                marginBottom: "22px",
                 fontFamily: "Noto Sans, sans-serif",
                 display: "flex",
               }}
             >
-              SNEHA &amp; SANAT INVITE YOU TO THEIR
+              🇫🇷 SNEHA &amp; SANAT 🚗
             </div>
 
             <div
               style={{
-                fontSize: 88,
+                fontSize: 84,
                 fontWeight: 300,
                 fontStyle: "italic",
                 fontFamily:
@@ -239,11 +247,11 @@ export default async function Image() {
                     : "Georgia, serif",
                 color: "#FDFAF6",
                 lineHeight: 0.95,
-                marginBottom: "22px",
+                marginBottom: "18px",
                 display: "flex",
               }}
             >
-              10 Year Anniversary
+              Sneha &amp; Sanat
             </div>
 
             <div
@@ -268,7 +276,7 @@ export default async function Image() {
                 display: "flex",
               }}
             >
-              Vow Renewal · C&#244;te d&apos;Azur
+              10 Year Anniversary · Vow Renewal
             </div>
 
             <div
